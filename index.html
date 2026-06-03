@@ -59,6 +59,10 @@
   input[type=range]{flex:1;-webkit-appearance:none;appearance:none;height:5px;border-radius:99px;background:var(--color-border-tertiary);outline:none;}
   input[type=range]::-webkit-slider-thumb{-webkit-appearance:none;width:18px;height:18px;border-radius:50%;background:var(--color-text-info);cursor:pointer;border:3px solid var(--color-background-primary);box-shadow:0 1px 4px rgba(0,0,0,0.3);}
   input[type=range]::-moz-range-thumb{width:18px;height:18px;border-radius:50%;background:var(--color-text-info);cursor:pointer;border:3px solid var(--color-background-primary);}
+  .row select{flex:1;-webkit-appearance:none;appearance:none;font-family:"IBM Plex Sans",system-ui,sans-serif;font-size:14px;color:var(--color-text-primary);background-color:var(--color-background-secondary);border:1px solid var(--color-border-tertiary);border-radius:var(--border-radius-md);padding:9px 36px 9px 12px;cursor:pointer;line-height:1.2;background-image:url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8' fill='none' stroke='%23938d7e' stroke-width='1.6' stroke-linecap='round'><path d='M1 1.5l5 5 5-5'/></svg>");background-repeat:no-repeat;background-position:right 13px center;transition:border-color .15s ease;}
+  .row select:hover{border-color:var(--color-border-secondary);}
+  .row select:focus{outline:none;border-color:var(--color-text-info);box-shadow:0 0 0 3px color-mix(in srgb,var(--color-text-info) 18%,transparent);}
+  .row select option{background:var(--color-background-primary);color:var(--color-text-primary);}
   .cond{text-align:right;font-size:13px;color:var(--color-text-tertiary);margin:14px 0 0;font-family:"IBM Plex Mono",monospace;}
   .cond b{color:var(--color-text-secondary);font-weight:600;}
   .cards{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-top:16px;}
@@ -96,9 +100,21 @@
 
     <div class="canvas-wrap"><canvas id="cv"></canvas></div>
 
-    <div class="row"><label>Lastabstand a (Hebelarm)</label><input type="range" min="20" max="200" step="1" value="160" id="a" /><span class="val" id="a-out">160 mm</span></div>
-    <div class="row"><label>Hülsenhöhe h</label><input type="range" min="20" max="200" step="1" value="60" id="h" /><span class="val" id="h-out">60 mm</span></div>
+    <div class="row"><label>Lastabstand a (Hebelarm)</label><input type="range" min="5" max="80" step="1" value="70" id="a" /><span class="val" id="a-out">70 mm</span></div>
+    <div class="row"><label>Abstand Kontaktpunkte h</label><input type="range" min="5" max="120" step="1" value="30" id="h" /><span class="val" id="h-out">30 mm</span></div>
     <div class="row"><label>Reibungszahl μ</label><input type="range" min="0.05" max="0.6" step="0.01" value="0.25" id="mu" /><span class="val" id="mu-out">0.25</span></div>
+    <div class="row"><label for="pair">Reibpaarung</label><select id="pair">
+      <option value="">— benutzerdefiniert —</option>
+      <option value="0.05">Stahl – PTFE (Teflon) · μ = 0.05</option>
+      <option value="0.10">Stahl – Stahl (geschmiert) · μ = 0.10</option>
+      <option value="0.15">Stahl – Stahl (trocken) · μ = 0.15</option>
+      <option value="0.19">Stahl – Bronze · μ = 0.19</option>
+      <option value="0.20">Stahl – Gusseisen · μ = 0.20</option>
+      <option value="0.35">Stahl – Messing · μ = 0.35</option>
+      <option value="0.45">Stahl – Aluminium · μ = 0.45</option>
+      <option value="0.50">Holz – Metall · μ = 0.50</option>
+      <option value="0.55">Aluminium – Aluminium · μ = 0.55</option>
+    </select></div>
 
     <p class="cond">Bedingung: a/h = <b id="ah-out">2.7</b> ≥ 1/(2μ) = <b id="thr-out">2.0</b></p>
 
@@ -131,7 +147,7 @@
 (function(){
   var cv=document.getElementById('cv'), ctx=cv.getContext('2d');
   var sans='"IBM Plex Mono", monospace';
-  var S={a:160,h:60,d:24,mu:0.25,slip:0,v:0,last:0,hover:null};
+  var S={a:70,h:30,d:5,mu:0.25,slip:0,v:0,last:0,hover:null};
   var vw=620, vh=330, dpr=1, probe=document.createElement('span');
   probe.style.cssText='position:absolute;visibility:hidden;background:var(--color-background-primary)';
   document.body.appendChild(probe);
@@ -216,16 +232,21 @@
     ctx.clearRect(0,0,vw,vh);
 
     var sx=Math.max(150,vw*0.27);
-    var k=Math.min((vw-sx-92)/200,(vh-86)/200); if(k<0.4)k=0.4;
-    var dPx=S.d*k, hPx=Math.max(34,S.h*k), aPx=S.a*k;
+    var k=Math.min((vw-sx-92)/80,(vh-86)/120); if(k<0.4)k=0.4;
+    var dPx=S.d*k, hPx=Math.max(8,S.h*k), aPx=S.a*k;
     var yc=vh*0.45+S.slip, loadX=sx+aPx;
+
+    var cLeft=sx-dPx/2-96, cRight=Math.max(loadX+46,sx+dPx/2+92);
+    var dx=Math.round(vw/2-(cLeft+cRight)/2); if(cLeft+dx<8)dx=8-cLeft;
+    ctx.save();ctx.translate(dx,0);
 
     rotRect(sx,vh/2,dPx,vh-30,0,C.tealF,C.tealS);
     var bw=40,bh=hPx+34,tilt=0.07;
     rotRect(sx-dPx/2-bw/2,yc,bw,bh,tilt,C.pinkF,C.pinkS);
     rotRect(sx+dPx/2+bw/2,yc,bw,bh,tilt,C.pinkF,C.pinkS);
     ctx.strokeStyle=C.pinkS;ctx.fillStyle=C.pinkF;ctx.lineWidth=1.5;
-    ctx.beginPath();ctx.rect(sx+dPx/2+bw-4,yc-9,loadX-(sx+dPx/2+bw-4)+6,18);ctx.fill();ctx.stroke();
+    var rt=Math.max(3,dPx*0.55),rx=sx+dPx/2+bw-4;
+    ctx.beginPath();ctx.rect(rx,yc-rt/2,loadX-rx+6,rt);ctx.fill();ctx.stroke();
     ctx.setLineDash([4,4]);ctx.strokeStyle=C.ter;ctx.lineWidth=1;ctx.beginPath();ctx.moveTo(loadX,yc);ctx.lineTo(loadX,yc+72);ctx.stroke();ctx.setLineDash([]);
     arrow(loadX,yc-54,0,46,C.text,3.5,'F');
 
@@ -239,7 +260,7 @@
       ctx.strokeStyle=C.sec;ctx.globalAlpha=0.45;ctx.lineWidth=1;
       ctx.beginPath();ctx.moveTo(xA,yA);ctx.lineTo(P[0],P[1]);ctx.stroke();
       ctx.beginPath();ctx.moveTo(xB,yB);ctx.lineTo(P[0],P[1]);ctx.stroke();ctx.globalAlpha=1;
-      if(P[0]>sx&&P[0]<vw-2){
+      if(P[0]>sx&&P[0]<vw-dx-2){
         ctx.setLineDash([5,4]);ctx.strokeStyle=C.sec;ctx.lineWidth=1.2;
         ctx.beginPath();ctx.moveTo(P[0],26);ctx.lineTo(P[0],vh-16);ctx.stroke();ctx.setLineDash([]);
         ctx.fillStyle=C.sec;ctx.font='12px '+sans;ctx.fillText('Grenze a = h/2μ',P[0]+5,38);
@@ -260,6 +281,7 @@
       dimAngle(xB,yB,0,-rho,44,'ρ = '+rdeg+'°  (μ = '+S.mu.toFixed(2)+')',C.info,C);
       dimAngle(xA,yA,Math.PI,rho,44,'',C.info,C);
     }
+    ctx.restore();
     requestAnimationFrame(render);
   }
   function update(){
@@ -267,6 +289,9 @@
     document.getElementById('a-out').textContent=S.a+' mm';
     document.getElementById('h-out').textContent=S.h+' mm';
     document.getElementById('mu-out').textContent=S.mu.toFixed(2);
+    var ps=document.getElementById('pair'),pv='';
+    for(var pi=0;pi<ps.options.length;pi++){if(ps.options[pi].value&&Math.abs(parseFloat(ps.options[pi].value)-S.mu)<5e-3){pv=ps.options[pi].value;break;}}
+    ps.value=pv;
     document.getElementById('ah-out').textContent=(S.a/S.h).toFixed(1);
     document.getElementById('thr-out').textContent=(1/(2*S.mu)).toFixed(1);
     document.getElementById('beta-out').textContent=beta.toFixed(1)+'°';
@@ -294,6 +319,13 @@
     el.addEventListener('focus',function(){S.hover=id;});
     el.addEventListener('blur',function(){if(S.drag!==id)S.hover=null;});
   });
+  var pairEl=document.getElementById('pair');
+  pairEl.addEventListener('change',function(e){
+    var v=parseFloat(e.target.value);
+    if(!isNaN(v)){S.mu=v;document.getElementById('mu').value=v;S.hover='mu';update();}
+  });
+  pairEl.addEventListener('pointerenter',function(){S.hover='mu';});
+  pairEl.addEventListener('pointerleave',function(){S.hover=null;});
   window.addEventListener('pointerup',function(){S.drag=null;});
   window.addEventListener('resize',resize);
   resize();update();requestAnimationFrame(render);
