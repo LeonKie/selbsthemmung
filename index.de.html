@@ -1,10 +1,10 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="de">
 <head>
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-<title>Self-locking by canting — interactive</title>
-<meta name="description" content="Interactive demonstration of self-locking by canting: a sleeve on a shaft with friction cones." />
+<title>Selbsthemmung durch Verkanten — interaktiv</title>
+<meta name="description" content="Interaktive Demonstration der Selbsthemmung durch Verkanten: eine Hülse auf einer Welle mit Reibungskegeln." />
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@3/dist/tabler-icons.min.css" />
 <link rel="preconnect" href="https://fonts.googleapis.com" />
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
@@ -86,54 +86,54 @@
 </head>
 <body>
 <nav class="lang" aria-label="Language / Sprache">
-  <a href="index.html" aria-current="page">EN</a>
-  <a href="index.de.html">DE</a>
+  <a href="index.html">EN</a>
+  <a href="index.de.html" aria-current="page">DE</a>
 </nav>
 <div class="wrap">
   <header>
-    <p class="kicker">Engineering Mechanics · Friction</p>
-    <h1>Self-locking <em>by canting</em></h1>
-    <p class="lede">A loose sleeve on a fixed shaft is loaded through a lever arm, cants, and clamps the shaft at two diagonal contact points. The resultant at each contact must stay inside its friction cone — then the clamp holds, independent of the load.</p>
+    <p class="kicker">Technische Mechanik · Reibung</p>
+    <h1>Selbsthemmung <em>durch Verkanten</em></h1>
+    <p class="lede">Eine lose Hülse auf einer festen Welle wird über einen Hebelarm belastet, verkantet und klemmt die Welle an zwei diagonalen Kontaktpunkten. Die Resultierende in jedem Kontakt muss innerhalb ihres Reibungskegels bleiben — dann hält die Klemmung, unabhängig von der Last.</p>
   </header>
 
-  <section class="card" aria-label="Interactive simulation">
-    <h2 class="sr-only">Interactive simulation of self-locking by canting. Adjust load distance, contact-point distance and friction coefficient.</h2>
+  <section class="card" aria-label="Interaktive Simulation">
+    <h2 class="sr-only">Interaktive Simulation der Selbsthemmung durch Verkanten. Stellen Sie Lastabstand, Abstand der Kontaktpunkte und Reibungszahl ein.</h2>
     <div id="banner">
       <i id="b-icon" class="ti ti-lock" aria-hidden="true"></i>
       <div>
-        <div id="b-title">Self-locking — sleeve clamps</div>
+        <div id="b-title">Selbsthemmung — Hülse klemmt</div>
         <div id="b-sub"></div>
       </div>
     </div>
 
     <div class="canvas-wrap"><canvas id="cv"></canvas></div>
 
-    <div class="row"><label>Load distance a (lever arm)</label><input type="range" min="5" max="80" step="1" value="70" id="a" /><span class="val" id="a-out">70 mm</span></div>
-    <div class="row"><label>Contact-point distance h</label><input type="range" min="5" max="120" step="1" value="30" id="h" /><span class="val" id="h-out">30 mm</span></div>
-    <div class="row"><label>Friction coefficient μ</label><input type="range" min="0.05" max="0.6" step="0.01" value="0.25" id="mu" /><span class="val" id="mu-out">0.25</span></div>
-    <div class="row"><label for="pair">Material pairing</label><select id="pair">
-      <option value="">— custom —</option>
-      <option value="0.05">Steel – PTFE (Teflon) · μ = 0.05</option>
-      <option value="0.10">Steel – Steel (lubricated) · μ = 0.10</option>
-      <option value="0.15">Steel – Steel (dry) · μ = 0.15</option>
-      <option value="0.19">Steel – Bronze · μ = 0.19</option>
-      <option value="0.20">Steel – Cast iron · μ = 0.20</option>
-      <option value="0.35">Steel – Brass · μ = 0.35</option>
-      <option value="0.45">Steel – Aluminium · μ = 0.45</option>
-      <option value="0.50">Wood – Metal · μ = 0.50</option>
+    <div class="row"><label>Lastabstand a (Hebelarm)</label><input type="range" min="5" max="80" step="1" value="70" id="a" /><span class="val" id="a-out">70 mm</span></div>
+    <div class="row"><label>Abstand Kontaktpunkte h</label><input type="range" min="5" max="120" step="1" value="30" id="h" /><span class="val" id="h-out">30 mm</span></div>
+    <div class="row"><label>Reibungszahl μ</label><input type="range" min="0.05" max="0.6" step="0.01" value="0.25" id="mu" /><span class="val" id="mu-out">0.25</span></div>
+    <div class="row"><label for="pair">Reibpaarung</label><select id="pair">
+      <option value="">— benutzerdefiniert —</option>
+      <option value="0.05">Stahl – PTFE (Teflon) · μ = 0.05</option>
+      <option value="0.10">Stahl – Stahl (geschmiert) · μ = 0.10</option>
+      <option value="0.15">Stahl – Stahl (trocken) · μ = 0.15</option>
+      <option value="0.19">Stahl – Bronze · μ = 0.19</option>
+      <option value="0.20">Stahl – Gusseisen · μ = 0.20</option>
+      <option value="0.35">Stahl – Messing · μ = 0.35</option>
+      <option value="0.45">Stahl – Aluminium · μ = 0.45</option>
+      <option value="0.50">Holz – Metall · μ = 0.50</option>
       <option value="0.55">Aluminium – Aluminium · μ = 0.55</option>
     </select></div>
 
-    <p class="cond">Condition: a/h = <b id="ah-out">2.7</b> ≥ 1/(2μ) = <b id="thr-out">2.0</b></p>
+    <p class="cond">Bedingung: a/h = <b id="ah-out">2.7</b> ≥ 1/(2μ) = <b id="thr-out">2.0</b></p>
 
     <div class="cards">
       <div class="metric">
-        <div class="lbl" style="color:var(--color-text-danger)"><i class="ti ti-target" aria-hidden="true"></i>required · β = arctan(h/2a)</div>
+        <div class="lbl" style="color:var(--color-text-danger)"><i class="ti ti-target" aria-hidden="true"></i>erforderlich · β = arctan(h/2a)</div>
         <div class="bar"><span id="bar-b" style="width:24%;background:var(--color-text-danger)"></span></div>
         <div class="num" id="beta-out">10.6°</div>
       </div>
       <div class="metric">
-        <div class="lbl" style="color:var(--color-text-success)"><i class="ti ti-cone" aria-hidden="true"></i>available · ρ = arctan(μ)</div>
+        <div class="lbl" style="color:var(--color-text-success)"><i class="ti ti-cone" aria-hidden="true"></i>verfügbar · ρ = arctan(μ)</div>
         <div class="bar"><span id="bar-r" style="width:31%;background:var(--color-text-success)"></span></div>
         <div class="num" id="rho-out">14.0°</div>
       </div>
@@ -141,13 +141,13 @@
   </section>
 
   <div class="formula">
-    <p class="eq">Self-locking when&nbsp; a ≥ h / (2μ)</p>
-    <p>At the slip limit both contacts develop μN simultaneously; the two friction forces cancel in moment, so the diameter drops out of the condition. The upper cone edges cross exactly at a distance h/(2μ) from the shaft axis — the self-locking limit.</p>
+    <p class="eq">Selbsthemmung wenn&nbsp; a ≥ h / (2μ)</p>
+    <p>An der Rutschgrenze schöpfen beide Kontakte gleichzeitig μN aus; die beiden Reibungskräfte heben sich im Moment auf, daher fällt der Durchmesser aus der Bedingung heraus. Die oberen Kegelkanten kreuzen sich genau im Abstand h/(2μ) von der Wellenachse — der Selbsthemmungsgrenze.</p>
   </div>
 
   <footer>
-    <span>Interactive · Canvas + Vanilla JS</span>
-    <span>Friction cone ρ = arctan(μ)</span>
+    <span>Interaktiv · Canvas + Vanilla JS</span>
+    <span>Reibungskegel ρ = arctan(μ)</span>
   </footer>
 </div>
 
@@ -271,7 +271,7 @@
       if(P[0]>sx&&P[0]<vw-dx-2){
         ctx.setLineDash([5,4]);ctx.strokeStyle=C.sec;ctx.lineWidth=1.2;
         ctx.beginPath();ctx.moveTo(P[0],26);ctx.lineTo(P[0],vh-16);ctx.stroke();ctx.setLineDash([]);
-        ctx.fillStyle=C.sec;ctx.font='12px '+sans;ctx.fillText('Limit a = h/2μ',P[0]+5,38);
+        ctx.fillStyle=C.sec;ctx.font='12px '+sans;ctx.fillText('Grenze a = h/2μ',P[0]+5,38);
         ctx.fillStyle=col;ctx.beginPath();ctx.arc(P[0],P[1],4.5,0,7);ctx.fill();
       }
     }
@@ -308,13 +308,13 @@
     document.getElementById('bar-r').style.width=Math.min(100,rho/45*100).toFixed(0)+'%';
     var b=document.getElementById('banner'),bi=document.getElementById('b-icon'),bt=document.getElementById('b-title'),bs=document.getElementById('b-sub');
     if(locked){
-      b.style.background='var(--color-background-success)';bi.className='ti ti-lock';bt.textContent='Self-locking — sleeve clamps';
+      b.style.background='var(--color-background-success)';bi.className='ti ti-lock';bt.textContent='Selbsthemmung — Hülse klemmt';
       bt.style.color='var(--color-text-success)';bs.style.color='var(--color-text-success)';
-      bs.textContent='β = '+beta.toFixed(1)+'° ≤ ρ = '+rho.toFixed(1)+'°  →  reaction stays inside the friction cone';
+      bs.textContent='β = '+beta.toFixed(1)+'° ≤ ρ = '+rho.toFixed(1)+'°  →  Reaktion bleibt im Reibkegel';
     }else{
-      b.style.background='var(--color-background-danger)';bi.className='ti ti-arrow-down';bt.textContent='no self-locking — slips';
+      b.style.background='var(--color-background-danger)';bi.className='ti ti-arrow-down';bt.textContent='keine Selbsthemmung — rutscht ab';
       bt.style.color='var(--color-text-danger)';bs.style.color='var(--color-text-danger)';
-      bs.textContent='β = '+beta.toFixed(1)+'° > ρ = '+rho.toFixed(1)+'°  →  reaction leaves the friction cone';
+      bs.textContent='β = '+beta.toFixed(1)+'° > ρ = '+rho.toFixed(1)+'°  →  Reaktion verlässt den Reibkegel';
     }
   }
   ['a','h'].forEach(function(id){document.getElementById(id).addEventListener('input',function(e){S[id]=parseInt(e.target.value);update();});});

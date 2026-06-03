@@ -6,8 +6,15 @@ lever arm, cants, and pinches the shaft at two diagonal contacts. Each contact h
 a **friction cone** (Reibungskegel); the clamp holds as long as the reaction stays
 inside its cone.
 
-Single static `index.html` — vanilla JS + `<canvas>`, no build step, no framework.
+Single static page — vanilla JS + `<canvas>`, no build step, no framework.
 Light/dark theming follows the OS preference.
+
+Available in two languages, with a switcher in the top-right corner:
+
+- **English** — [`index.html`](index.html)
+- **Deutsch** — [`index.de.html`](index.de.html)
+
+Both pages are self-contained and share identical physics and interaction code.
 
 ## The physics
 
