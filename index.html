@@ -1,0 +1,242 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Selbsthemmung durch Verkanten — interaktiv</title>
+<meta name="description" content="Interaktive Demonstration der Selbsthemmung durch Verkanten: eine Hülse auf einer Welle mit Reibungskegeln." />
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@3/dist/tabler-icons.min.css" />
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,500;1,9..144,400&family=IBM+Plex+Mono:wght@400;500;600&family=IBM+Plex+Sans:wght@400;500;600&display=swap" rel="stylesheet" />
+<style>
+  :root{
+    --color-background-primary:#FBF8F1; --color-background-secondary:#F1ECDF;
+    --color-background-success:#E2F0E9; --color-background-danger:#F7E4E0; --color-background-info:#E5EBF6;
+    --color-text-primary:#1d1c18; --color-text-secondary:#5b574d; --color-text-tertiary:#938d7e;
+    --color-text-success:#0f6e56; --color-text-danger:#b23a2e; --color-text-info:#1f5fae;
+    --color-border-tertiary:rgba(0,0,0,0.08); --color-border-secondary:rgba(0,0,0,0.28);
+    --border-radius-lg:16px; --border-radius-md:12px;
+    --grid:rgba(31,95,174,0.06);
+  }
+  @media (prefers-color-scheme: dark){
+    :root{
+      --color-background-primary:#15161a; --color-background-secondary:#1e2026;
+      --color-background-success:#13352c; --color-background-danger:#3a201c; --color-background-info:#16263f;
+      --color-text-primary:#ece8df; --color-text-secondary:#a9a294; --color-text-tertiary:#7c766a;
+      --color-text-success:#4cc59c; --color-text-danger:#e5816f; --color-text-info:#6ba6e8;
+      --color-border-tertiary:rgba(255,255,255,0.09); --color-border-secondary:rgba(255,255,255,0.3);
+      --grid:rgba(107,166,232,0.08);
+    }
+  }
+  *{box-sizing:border-box;}
+  html,body{margin:0;padding:0;}
+  body{
+    background:var(--color-background-primary);
+    background-image:linear-gradient(var(--grid) 1px,transparent 1px),linear-gradient(90deg,var(--grid) 1px,transparent 1px);
+    background-size:26px 26px;
+    color:var(--color-text-primary);
+    font-family:"IBM Plex Sans",system-ui,sans-serif;
+    line-height:1.5; -webkit-font-smoothing:antialiased;
+    min-height:100vh;
+  }
+  .wrap{max-width:780px;margin:0 auto;padding:48px 20px 64px;}
+  header{margin-bottom:28px;}
+  .kicker{font-family:"IBM Plex Mono",monospace;font-size:12px;letter-spacing:0.22em;text-transform:uppercase;color:var(--color-text-info);margin:0 0 10px;}
+  h1{font-family:"Fraunces",serif;font-weight:500;font-size:clamp(30px,6vw,46px);line-height:1.05;margin:0 0 12px;letter-spacing:-0.01em;}
+  h1 em{font-style:italic;color:var(--color-text-secondary);}
+  .lede{color:var(--color-text-secondary);font-size:15.5px;max-width:60ch;margin:0;}
+  .card{background:color-mix(in srgb,var(--color-background-primary) 86%,transparent);backdrop-filter:blur(2px);border:1px solid var(--color-border-tertiary);border-radius:var(--border-radius-lg);padding:18px 18px 22px;margin-top:28px;box-shadow:0 1px 0 rgba(0,0,0,0.02),0 18px 40px -28px rgba(0,0,0,0.35);}
+  #banner{display:flex;align-items:center;gap:10px;padding:12px 14px;border-radius:var(--border-radius-lg);margin-bottom:14px;font-size:15px;}
+  #banner i{font-size:22px;}
+  #b-title{font-weight:600;}
+  #b-sub{font-size:13px;}
+  .canvas-wrap{width:100%;background:var(--color-background-secondary);border-radius:var(--border-radius-lg);border:1px solid var(--color-border-tertiary);}
+  canvas{display:block;width:100%;height:330px;}
+  .row{display:flex;align-items:center;gap:12px;margin:14px 0 0;}
+  .row label{font-size:14px;color:var(--color-text-secondary);min-width:160px;}
+  .row .val{font-family:"IBM Plex Mono",monospace;font-size:14px;font-weight:600;min-width:62px;text-align:right;}
+  input[type=range]{flex:1;-webkit-appearance:none;appearance:none;height:5px;border-radius:99px;background:var(--color-border-tertiary);outline:none;}
+  input[type=range]::-webkit-slider-thumb{-webkit-appearance:none;width:18px;height:18px;border-radius:50%;background:var(--color-text-info);cursor:pointer;border:3px solid var(--color-background-primary);box-shadow:0 1px 4px rgba(0,0,0,0.3);}
+  input[type=range]::-moz-range-thumb{width:18px;height:18px;border-radius:50%;background:var(--color-text-info);cursor:pointer;border:3px solid var(--color-background-primary);}
+  .cond{text-align:right;font-size:13px;color:var(--color-text-tertiary);margin:14px 0 0;font-family:"IBM Plex Mono",monospace;}
+  .cond b{color:var(--color-text-secondary);font-weight:600;}
+  .cards{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-top:16px;}
+  .metric{background:var(--color-background-secondary);border-radius:var(--border-radius-md);padding:0.85rem 1rem;}
+  .metric .lbl{font-size:13px;display:flex;align-items:center;gap:6px;}
+  .metric .lbl i{font-size:15px;}
+  .metric .bar{height:8px;background:var(--color-background-primary);border-radius:99px;margin:8px 0 6px;overflow:hidden;}
+  .metric .bar span{display:block;height:100%;border-radius:99px;}
+  .metric .num{font-family:"IBM Plex Mono",monospace;font-size:18px;font-weight:600;}
+  .formula{margin-top:28px;padding:18px 20px;border-left:3px solid var(--color-text-info);background:var(--color-background-info);border-radius:0 var(--border-radius-md) var(--border-radius-md) 0;}
+  .formula .eq{font-family:"IBM Plex Mono",monospace;font-size:17px;font-weight:600;color:var(--color-text-info);margin:0 0 8px;}
+  .formula p{margin:0;color:var(--color-text-secondary);font-size:14.5px;}
+  footer{margin-top:30px;font-size:12.5px;color:var(--color-text-tertiary);font-family:"IBM Plex Mono",monospace;display:flex;justify-content:space-between;flex-wrap:wrap;gap:8px;}
+  footer a{color:var(--color-text-info);text-decoration:none;}
+  .sr-only{position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0,0,0,0);border:0;}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header>
+    <p class="kicker">Technische Mechanik · Reibung</p>
+    <h1>Selbsthemmung <em>durch Verkanten</em></h1>
+    <p class="lede">Eine lose Hülse auf einer festen Welle wird über einen Hebelarm belastet, verkantet und klemmt die Welle an zwei diagonalen Kontaktpunkten. Die Resultierende in jedem Kontakt muss innerhalb ihres Reibungskegels bleiben — dann hält die Klemmung, unabhängig von der Last.</p>
+  </header>
+
+  <section class="card" aria-label="Interaktive Simulation">
+    <h2 class="sr-only">Interaktive Simulation der Selbsthemmung durch Verkanten. Stellen Sie Lastabstand, Hülsenhöhe, Hülsendurchmesser und Reibungszahl ein.</h2>
+    <div id="banner">
+      <i id="b-icon" class="ti ti-lock" aria-hidden="true"></i>
+      <div>
+        <div id="b-title">Selbsthemmung — Hülse klemmt</div>
+        <div id="b-sub"></div>
+      </div>
+    </div>
+
+    <div class="canvas-wrap"><canvas id="cv"></canvas></div>
+
+    <div class="row"><label>Lastabstand a (Hebelarm)</label><input type="range" min="20" max="200" step="1" value="160" id="a" /><span class="val" id="a-out">160 mm</span></div>
+    <div class="row"><label>Hülsenhöhe h</label><input type="range" min="20" max="200" step="1" value="60" id="h" /><span class="val" id="h-out">60 mm</span></div>
+    <div class="row"><label>Hülsendurchmesser d</label><input type="range" min="8" max="80" step="1" value="24" id="d" /><span class="val" id="d-out">24 mm</span></div>
+    <div class="row"><label>Reibungszahl μ</label><input type="range" min="0.05" max="0.6" step="0.01" value="0.25" id="mu" /><span class="val" id="mu-out">0.25</span></div>
+
+    <p class="cond">Bedingung: a/h = <b id="ah-out">2.7</b> ≥ 1/(2μ) = <b id="thr-out">2.0</b> · d ohne Einfluss auf die Grenze</p>
+
+    <div class="cards">
+      <div class="metric">
+        <div class="lbl" style="color:var(--color-text-danger)"><i class="ti ti-target" aria-hidden="true"></i>erforderlich · β = arctan(h/2a)</div>
+        <div class="bar"><span id="bar-b" style="width:24%;background:var(--color-text-danger)"></span></div>
+        <div class="num" id="beta-out">10.6°</div>
+      </div>
+      <div class="metric">
+        <div class="lbl" style="color:var(--color-text-success)"><i class="ti ti-cone" aria-hidden="true"></i>verfügbar · ρ = arctan(μ)</div>
+        <div class="bar"><span id="bar-r" style="width:31%;background:var(--color-text-success)"></span></div>
+        <div class="num" id="rho-out">14.0°</div>
+      </div>
+    </div>
+  </section>
+
+  <div class="formula">
+    <p class="eq">Selbsthemmung wenn&nbsp; a ≥ h / (2μ)</p>
+    <p>An der Rutschgrenze schöpfen beide Kontakte gleichzeitig μN aus; die beiden Reibungskräfte heben sich im Moment auf, daher fällt der Durchmesser aus der Bedingung heraus. Die oberen Kegelkanten kreuzen sich genau im Abstand h/(2μ) von der Wellenachse — der Selbsthemmungsgrenze.</p>
+  </div>
+
+  <footer>
+    <span>Interaktiv · Canvas + Vanilla JS</span>
+    <span>Reibungskegel ρ = arctan(μ)</span>
+  </footer>
+</div>
+
+<script>
+(function(){
+  var cv=document.getElementById('cv'), ctx=cv.getContext('2d');
+  var sans='"IBM Plex Mono", monospace';
+  var S={a:160,h:60,d:24,mu:0.25,slip:0,v:0,last:0};
+  var vw=620, vh=330, dpr=1, probe=document.createElement('span');
+  probe.style.cssText='position:absolute;visibility:hidden;background:var(--color-background-primary)';
+  document.body.appendChild(probe);
+
+  function cssv(n,f){var v=getComputedStyle(document.documentElement).getPropertyValue(n).trim();return v||f;}
+  function isDark(){var s=getComputedStyle(probe).backgroundColor,m=s.match(/[\d.]+/g);if(!m)return false;return (0.299*m[0]+0.587*m[1]+0.114*m[2])/255<0.5;}
+  function colors(){
+    var d=isDark();
+    return {text:cssv('--color-text-primary','#222'), sec:cssv('--color-text-secondary','#666'), ter:cssv('--color-text-tertiary','#999'),
+      teal:cssv('--color-text-success','#0f6e56'), red:cssv('--color-text-danger','#a32d2d'),
+      pinkF:d?'#5b2740':'#F4C0D1', pinkS:d?'#ED93B1':'#993556', tealF:d?'#0c3a30':'#9FE1CB', tealS:d?'#5DCAA5':'#0F6E56'};
+  }
+  function resize(){var w=cv.clientWidth||620;dpr=window.devicePixelRatio||1;vw=w;vh=330;cv.width=Math.round(w*dpr);cv.height=Math.round(vh*dpr);ctx.setTransform(dpr,0,0,dpr,0,0);}
+  function arrow(x,y,dx,dy,col,lw,label){
+    var len=Math.hypot(dx,dy); if(len<2) return;
+    var ex=x+dx,ey=y+dy,ang=Math.atan2(dy,dx),hh=8;
+    ctx.strokeStyle=col;ctx.fillStyle=col;ctx.lineWidth=lw||2.5;ctx.lineCap='round';
+    ctx.beginPath();ctx.moveTo(x,y);ctx.lineTo(ex,ey);ctx.stroke();
+    ctx.beginPath();ctx.moveTo(ex,ey);ctx.lineTo(ex-hh*Math.cos(ang-0.45),ey-hh*Math.sin(ang-0.45));ctx.lineTo(ex-hh*Math.cos(ang+0.45),ey-hh*Math.sin(ang+0.45));ctx.closePath();ctx.fill();
+    if(label){ctx.font='600 12px '+sans;ctx.fillText(label,ex+6*Math.cos(ang)-3,ey+6*Math.sin(ang)+4);}
+  }
+  function rotRect(cx,cy,w,h,ang,fill,stroke){
+    ctx.save();ctx.translate(cx,cy);ctx.rotate(ang);ctx.fillStyle=fill;ctx.strokeStyle=stroke;ctx.lineWidth=1.5;
+    var r=3;ctx.beginPath();ctx.moveTo(-w/2+r,-h/2);ctx.arcTo(w/2,-h/2,w/2,h/2,r);ctx.arcTo(w/2,h/2,-w/2,h/2,r);ctx.arcTo(-w/2,h/2,-w/2,-h/2,r);ctx.arcTo(-w/2,-h/2,w/2,-h/2,r);ctx.closePath();ctx.fill();ctx.stroke();ctx.restore();
+  }
+  function wedge(x,y,a1,a2,L,col){
+    ctx.save();ctx.globalAlpha=0.13;ctx.fillStyle=col;ctx.beginPath();ctx.moveTo(x,y);
+    ctx.lineTo(x+L*Math.cos(a1),y+L*Math.sin(a1));ctx.lineTo(x+L*Math.cos(a2),y+L*Math.sin(a2));ctx.closePath();ctx.fill();ctx.restore();
+    ctx.strokeStyle=col;ctx.globalAlpha=0.5;ctx.lineWidth=1;
+    ctx.beginPath();ctx.moveTo(x,y);ctx.lineTo(x+L*Math.cos(a1),y+L*Math.sin(a1));ctx.stroke();
+    ctx.beginPath();ctx.moveTo(x,y);ctx.lineTo(x+L*Math.cos(a2),y+L*Math.sin(a2));ctx.stroke();ctx.globalAlpha=1;
+  }
+  function inter(p1,d1,p2,d2){var den=d1[0]*d2[1]-d1[1]*d2[0];if(Math.abs(den)<1e-6)return null;var t=((p2[0]-p1[0])*d2[1]-(p2[1]-p1[1])*d2[0])/den;return [p1[0]+t*d1[0],p1[1]+t*d1[1]];}
+
+  function render(ts){
+    if(!S.last)S.last=ts;var dt=Math.min(0.05,(ts-S.last)/1000);S.last=ts;var C=colors();
+    var rho=Math.atan(S.mu),beta=Math.atan(S.h/(2*S.a)),locked=beta<=rho+1e-9;
+    if(locked){S.slip=0;S.v=0;}else{S.v+=14*dt;S.slip+=S.v*dt*22;if(S.slip>72){S.slip=0;S.v=0;}}
+    ctx.clearRect(0,0,vw,vh);
+
+    var sx=Math.max(150,vw*0.27);
+    var k=Math.min((vw-sx-92)/200,(vh-86)/200); if(k<0.4)k=0.4;
+    var dPx=S.d*k, hPx=Math.max(34,S.h*k), aPx=S.a*k;
+    var yc=vh*0.45+S.slip, loadX=sx+aPx;
+
+    rotRect(sx,vh/2,dPx,vh-30,0,C.tealF,C.tealS);
+    var bw=40,bh=hPx+34,tilt=0.07;
+    rotRect(sx-dPx/2-bw/2,yc,bw,bh,tilt,C.pinkF,C.pinkS);
+    rotRect(sx+dPx/2+bw/2,yc,bw,bh,tilt,C.pinkF,C.pinkS);
+    ctx.strokeStyle=C.pinkS;ctx.fillStyle=C.pinkF;ctx.lineWidth=1.5;
+    ctx.beginPath();ctx.rect(sx+dPx/2+bw-4,yc-9,loadX-(sx+dPx/2+bw-4)+6,18);ctx.fill();ctx.stroke();
+    ctx.setLineDash([4,4]);ctx.strokeStyle=C.ter;ctx.lineWidth=1;ctx.beginPath();ctx.moveTo(loadX,yc);ctx.lineTo(loadX,yc+72);ctx.stroke();ctx.setLineDash([]);
+    arrow(loadX,yc-54,0,46,C.text,3.5,'F');
+
+    var xA=sx-dPx/2, yA=yc-hPx/2, xB=sx+dPx/2, yB=yc+hPx/2;
+    var col=locked?C.teal:C.red;
+    wedge(xA,yA,Math.PI+rho,Math.PI-rho,86,col);
+    wedge(xB,yB,rho,-rho,86,col);
+
+    var P=inter([xA,yA],[-Math.cos(rho),-Math.sin(rho)],[xB,yB],[Math.cos(rho),-Math.sin(rho)]);
+    if(P){
+      ctx.strokeStyle=C.sec;ctx.globalAlpha=0.45;ctx.lineWidth=1;
+      ctx.beginPath();ctx.moveTo(xA,yA);ctx.lineTo(P[0],P[1]);ctx.stroke();
+      ctx.beginPath();ctx.moveTo(xB,yB);ctx.lineTo(P[0],P[1]);ctx.stroke();ctx.globalAlpha=1;
+      if(P[0]>sx&&P[0]<vw-2){
+        ctx.setLineDash([5,4]);ctx.strokeStyle=C.sec;ctx.lineWidth=1.2;
+        ctx.beginPath();ctx.moveTo(P[0],26);ctx.lineTo(P[0],vh-16);ctx.stroke();ctx.setLineDash([]);
+        ctx.fillStyle=C.sec;ctx.font='12px '+sans;ctx.fillText('Grenze a = h/2μ',P[0]+5,38);
+        ctx.fillStyle=col;ctx.beginPath();ctx.arc(P[0],P[1],4.5,0,7);ctx.fill();
+      }
+    }
+    arrow(xA,yA,72*Math.cos(Math.PI+beta),72*Math.sin(Math.PI+beta),col,3,'R');
+    arrow(xB,yB,72*Math.cos(-beta),72*Math.sin(-beta),col,3,'R');
+    ctx.fillStyle=col;ctx.beginPath();ctx.arc(xA,yA,4,0,7);ctx.fill();ctx.beginPath();ctx.arc(xB,yB,4,0,7);ctx.fill();
+    requestAnimationFrame(render);
+  }
+  function update(){
+    var rho=Math.atan(S.mu)*180/Math.PI,beta=Math.atan(S.h/(2*S.a))*180/Math.PI,locked=beta<=rho+1e-9;
+    document.getElementById('a-out').textContent=S.a+' mm';
+    document.getElementById('h-out').textContent=S.h+' mm';
+    document.getElementById('d-out').textContent=S.d+' mm';
+    document.getElementById('mu-out').textContent=S.mu.toFixed(2);
+    document.getElementById('ah-out').textContent=(S.a/S.h).toFixed(1);
+    document.getElementById('thr-out').textContent=(1/(2*S.mu)).toFixed(1);
+    document.getElementById('beta-out').textContent=beta.toFixed(1)+'°';
+    document.getElementById('rho-out').textContent=rho.toFixed(1)+'°';
+    document.getElementById('bar-b').style.width=Math.min(100,beta/45*100).toFixed(0)+'%';
+    document.getElementById('bar-r').style.width=Math.min(100,rho/45*100).toFixed(0)+'%';
+    var b=document.getElementById('banner'),bi=document.getElementById('b-icon'),bt=document.getElementById('b-title'),bs=document.getElementById('b-sub');
+    if(locked){
+      b.style.background='var(--color-background-success)';bi.className='ti ti-lock';bt.textContent='Selbsthemmung — Hülse klemmt';
+      bt.style.color='var(--color-text-success)';bs.style.color='var(--color-text-success)';
+      bs.textContent='β = '+beta.toFixed(1)+'° ≤ ρ = '+rho.toFixed(1)+'°  →  Reaktion bleibt im Reibkegel';
+    }else{
+      b.style.background='var(--color-background-danger)';bi.className='ti ti-arrow-down';bt.textContent='keine Selbsthemmung — rutscht ab';
+      bt.style.color='var(--color-text-danger)';bs.style.color='var(--color-text-danger)';
+      bs.textContent='β = '+beta.toFixed(1)+'° > ρ = '+rho.toFixed(1)+'°  →  Reaktion verlässt den Reibkegel';
+    }
+  }
+  ['a','h','d'].forEach(function(id){document.getElementById(id).addEventListener('input',function(e){S[id]=parseInt(e.target.value);update();});});
+  document.getElementById('mu').addEventListener('input',function(e){S.mu=parseFloat(e.target.value);update();});
+  window.addEventListener('resize',resize);
+  resize();update();requestAnimationFrame(render);
+})();
+</script>
+</body>
+</html>
