@@ -1,10 +1,10 @@
 <!DOCTYPE html>
-<html lang="de">
+<html lang="en">
 <head>
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-<title>Selbsthemmung durch Verkanten — interaktiv</title>
-<meta name="description" content="Interaktive Demonstration der Selbsthemmung durch Verkanten: eine Hülse auf einer Welle mit Reibungskegeln." />
+<title>Tilted plate on a rod — interactive</title>
+<meta name="description" content="Interactive demonstration of self-locking: a sheet with a clearance hole cants on a rod — rod and hole diameter set the tilt and the contact distance." />
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@3/dist/tabler-icons.min.css" />
 <link rel="preconnect" href="https://fonts.googleapis.com" />
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
@@ -89,69 +89,81 @@
 </head>
 <body>
 <nav class="lang" aria-label="Language / Sprache">
-  <a href="index.html">EN</a>
-  <a href="index.de.html" aria-current="page">DE</a>
+  <a href="plate.html" aria-current="page">EN</a>
+  <a href="plate.de.html">DE</a>
 </nav>
 <div class="wrap">
   <header>
-    <p class="kicker">Technische Mechanik · Reibung</p>
-    <h1>Selbsthemmung <em>durch Verkanten</em></h1>
-    <p class="lede">Eine lose Hülse auf einer festen Welle wird über einen Hebelarm belastet, verkantet und klemmt die Welle an zwei diagonalen Kontaktpunkten. Die Resultierende in jedem Kontakt muss innerhalb ihres Reibungskegels bleiben — dann hält die Klemmung, unabhängig von der Last.</p>
-    <p class="series"><a href="plate.de.html">Teil II · Verkantete Platte auf einer Stange — mit den Durchmessern spielen <i class="ti ti-arrow-right" aria-hidden="true"></i></a></p>
+    <p class="kicker">Engineering Mechanics · Friction · Part II</p>
+    <h1>Tilted plate <em>on a rod</em></h1>
+    <p class="lede">A sheet with a clearance hole sits on a fixed rod. Pushed along the rod, it cants until the hole edges touch at two diagonal contact points. Rod diameter, hole diameter and sheet thickness set the tilt angle and the contact distance — and with them, whether the plate jams or slides.</p>
+    <p class="series"><a href="index.html"><i class="ti ti-arrow-left" aria-hidden="true"></i> Part I · Sleeve on a shaft</a></p>
   </header>
 
-  <section class="card" aria-label="Interaktive Simulation">
-    <h2 class="sr-only">Interaktive Simulation der Selbsthemmung durch Verkanten. Stellen Sie Lastabstand, Abstand der Kontaktpunkte und Reibungszahl ein.</h2>
+  <section class="card" aria-label="Interactive simulation">
+    <h2 class="sr-only">Interactive simulation of a plate jamming on a rod. Adjust rod diameter, hole diameter, sheet thickness, load distance and friction coefficient.</h2>
     <div id="banner">
       <i id="b-icon" class="ti ti-lock" aria-hidden="true"></i>
       <div>
-        <div id="b-title">Selbsthemmung — Hülse klemmt</div>
+        <div id="b-title">Self-locking — plate jams</div>
         <div id="b-sub"></div>
       </div>
     </div>
 
     <div class="canvas-wrap"><canvas id="cv"></canvas></div>
 
-    <div class="row"><label>Lastabstand a (Hebelarm)</label><input type="range" min="5" max="80" step="1" value="70" id="a" /><span class="val" id="a-out">70 mm</span></div>
-    <div class="row"><label>Abstand Kontaktpunkte h</label><input type="range" min="5" max="120" step="1" value="30" id="h" /><span class="val" id="h-out">30 mm</span></div>
-    <div class="row"><label>Reibungszahl μ</label><input type="range" min="0.05" max="0.6" step="0.01" value="0.25" id="mu" /><span class="val" id="mu-out">0.25</span></div>
-    <div class="row"><label for="pair">Reibpaarung</label><select id="pair">
-      <option value="">— benutzerdefiniert —</option>
-      <option value="0.05">Stahl – PTFE (Teflon) · μ = 0.05</option>
-      <option value="0.10">Stahl – Stahl (geschmiert) · μ = 0.10</option>
-      <option value="0.15">Stahl – Stahl (trocken) · μ = 0.15</option>
-      <option value="0.19">Stahl – Bronze · μ = 0.19</option>
-      <option value="0.20">Stahl – Gusseisen · μ = 0.20</option>
-      <option value="0.35">Stahl – Messing · μ = 0.35</option>
-      <option value="0.45">Stahl – Aluminium · μ = 0.45</option>
-      <option value="0.50">Holz – Metall · μ = 0.50</option>
+    <div class="row"><label>Rod diameter d</label><input type="range" min="4" max="20" step="0.5" value="10" id="d" /><span class="val" id="d-out">10 mm</span></div>
+    <div class="row"><label>Hole diameter D</label><input type="range" min="4.5" max="24" step="0.5" value="12" id="D" /><span class="val" id="D-out">12 mm</span></div>
+    <div class="row"><label>Sheet thickness t</label><input type="range" min="2" max="16" step="0.5" value="5" id="t" /><span class="val" id="t-out">5 mm</span></div>
+    <div class="row"><label>Load distance a (from rod axis)</label><input type="range" min="5" max="80" step="1" value="40" id="a" /><span class="val" id="a-out">40 mm</span></div>
+    <div class="row"><label>Friction coefficient μ</label><input type="range" min="0.05" max="0.6" step="0.01" value="0.25" id="mu" /><span class="val" id="mu-out">0.25</span></div>
+    <div class="row"><label for="pair">Material pairing</label><select id="pair">
+      <option value="">— custom —</option>
+      <option value="0.05">Steel – PTFE (Teflon) · μ = 0.05</option>
+      <option value="0.10">Steel – Steel (lubricated) · μ = 0.10</option>
+      <option value="0.15">Steel – Steel (dry) · μ = 0.15</option>
+      <option value="0.19">Steel – Bronze · μ = 0.19</option>
+      <option value="0.20">Steel – Cast iron · μ = 0.20</option>
+      <option value="0.35">Steel – Brass · μ = 0.35</option>
+      <option value="0.45">Steel – Aluminium · μ = 0.45</option>
+      <option value="0.50">Wood – Metal · μ = 0.50</option>
       <option value="0.55">Aluminium – Aluminium · μ = 0.55</option>
     </select></div>
 
-    <p class="cond">Bedingung: a/h = <b id="ah-out">2.7</b> ≥ 1/(2μ) = <b id="thr-out">2.0</b></p>
+    <p class="cond">Condition: a/w = <b id="aw-out">4.8</b> ≥ 1/(2μ) = <b id="thr-out">2.0</b></p>
 
     <div class="cards">
       <div class="metric">
-        <div class="lbl" style="color:var(--color-text-danger)"><i class="ti ti-target" aria-hidden="true"></i>erforderlich · β = arctan(h/2a)</div>
-        <div class="bar"><span id="bar-b" style="width:24%;background:var(--color-text-danger)"></span></div>
-        <div class="num" id="beta-out">10.6°</div>
+        <div class="lbl" style="color:var(--color-text-danger)"><i class="ti ti-target" aria-hidden="true"></i>required · β = arctan(w/2a)</div>
+        <div class="bar"><span id="bar-b" style="width:13%;background:var(--color-text-danger)"></span></div>
+        <div class="num" id="beta-out">5.9°</div>
       </div>
       <div class="metric">
-        <div class="lbl" style="color:var(--color-text-success)"><i class="ti ti-cone" aria-hidden="true"></i>verfügbar · ρ = arctan(μ)</div>
+        <div class="lbl" style="color:var(--color-text-success)"><i class="ti ti-cone" aria-hidden="true"></i>available · ρ = arctan(μ)</div>
         <div class="bar"><span id="bar-r" style="width:31%;background:var(--color-text-success)"></span></div>
         <div class="num" id="rho-out">14.0°</div>
+      </div>
+      <div class="metric">
+        <div class="lbl" style="color:var(--color-text-info)"><i class="ti ti-angle" aria-hidden="true"></i>tilt · D·cosθ − t·sinθ = d</div>
+        <div class="bar"><span id="bar-t" style="width:38%;background:var(--color-text-info)"></span></div>
+        <div class="num" id="theta-out">17.1°</div>
+      </div>
+      <div class="metric">
+        <div class="lbl" style="color:var(--color-text-info)"><i class="ti ti-arrows-horizontal" aria-hidden="true"></i>contact distance · w = D·sinθ + t·cosθ</div>
+        <div class="bar"><span id="bar-w" style="width:28%;background:var(--color-text-info)"></span></div>
+        <div class="num" id="w-out">8.3 mm</div>
       </div>
     </div>
   </section>
 
   <div class="formula">
-    <p class="eq">Selbsthemmung wenn&nbsp; a ≥ h / (2μ)</p>
-    <p>An der Rutschgrenze schöpfen beide Kontakte gleichzeitig μN aus; die beiden Reibungskräfte heben sich im Moment auf, daher fällt der Durchmesser aus der Bedingung heraus. Die oberen Kegelkanten kreuzen sich genau im Abstand h/(2μ) von der Wellenachse — der Selbsthemmungsgrenze.</p>
+    <p class="eq">Self-locking when&nbsp; a ≥ w / (2μ) &nbsp;·&nbsp; w = D·sinθ + t·cosθ</p>
+    <p>The plate tilts until both hole edges touch the rod: D·cosθ − t·sinθ = d fixes the tilt angle θ. The diameters enter only through the contact distance w — it plays the role of h in Part I. A small clearance D − d and a thin sheet give a small w, so even a force close to the rod jams the plate.</p>
   </div>
 
   <footer>
-    <span>Interaktiv · Canvas + Vanilla JS</span>
-    <span>Reibungskegel ρ = arctan(μ)</span>
+    <span>Interactive · Canvas + Vanilla JS</span>
+    <span>Friction cone ρ = arctan(μ)</span>
   </footer>
 </div>
 
@@ -159,7 +171,7 @@
 (function(){
   var cv=document.getElementById('cv'), ctx=cv.getContext('2d');
   var sans='"IBM Plex Mono", monospace';
-  var S={a:70,h:30,d:5,mu:0.25,slip:0,v:0,last:0,hover:null};
+  var S={d:10,D:12,t:5,a:40,mu:0.25,slip:0,v:0,last:0,hover:null,drag:null};
   var vw=620, vh=330, dpr=1, probe=document.createElement('span');
   probe.style.cssText='position:absolute;visibility:hidden;background:var(--color-background-primary)';
   document.body.appendChild(probe);
@@ -184,7 +196,7 @@
   }
   function rotRect(cx,cy,w,h,ang,fill,stroke){
     ctx.save();ctx.translate(cx,cy);ctx.rotate(ang);ctx.fillStyle=fill;ctx.strokeStyle=stroke;ctx.lineWidth=1.5;
-    var r=3;ctx.beginPath();ctx.moveTo(-w/2+r,-h/2);ctx.arcTo(w/2,-h/2,w/2,h/2,r);ctx.arcTo(w/2,h/2,-w/2,h/2,r);ctx.arcTo(-w/2,h/2,-w/2,-h/2,r);ctx.arcTo(-w/2,-h/2,w/2,-h/2,r);ctx.closePath();ctx.fill();ctx.stroke();ctx.restore();
+    var r=Math.min(3,w/3);ctx.beginPath();ctx.moveTo(-w/2+r,-h/2);ctx.arcTo(w/2,-h/2,w/2,h/2,r);ctx.arcTo(w/2,h/2,-w/2,h/2,r);ctx.arcTo(-w/2,h/2,-w/2,-h/2,r);ctx.arcTo(-w/2,-h/2,w/2,-h/2,r);ctx.closePath();ctx.fill();ctx.stroke();ctx.restore();
   }
   function wedge(x,y,a1,a2,L,col){
     ctx.save();ctx.globalAlpha=0.13;ctx.fillStyle=col;ctx.beginPath();ctx.moveTo(x,y);
@@ -237,93 +249,152 @@
     ctx.restore();
   }
 
+  // tilt angle θ from D·cosθ − t·sinθ = d, contact distance w = D·sinθ + t·cosθ
+  function geom(){
+    var R=Math.hypot(S.D,S.t);
+    var th=Math.acos(Math.min(1,S.d/R))-Math.atan2(S.t,S.D);
+    if(th<0)th=0;
+    return {th:th, w:S.D*Math.sin(th)+S.t*Math.cos(th)};
+  }
+  function mm(x){return (Math.round(x*10)/10)+' mm';}
+
   function render(ts){
     if(!S.last)S.last=ts;var dt=Math.min(0.05,(ts-S.last)/1000);S.last=ts;var C=colors();
-    var rho=Math.atan(S.mu),beta=Math.atan(S.h/(2*S.a)),locked=beta<=rho+1e-9;
-    if(locked){S.slip=0;S.v=0;}else{S.v+=14*dt;S.slip+=S.v*dt*22;if(S.slip>72){S.slip=0;S.v=0;}}
+    var G=geom(),rho=Math.atan(S.mu),beta=Math.atan(G.w/(2*S.a)),locked=beta<=rho+1e-9;
+    if(locked){S.slip=0;S.v=0;}else{S.v+=14*dt;S.slip+=S.v*dt*22;if(S.slip>96){S.slip=0;S.v=0;}}
     ctx.clearRect(0,0,vw,vh);
 
-    var sx=Math.max(150,vw*0.27);
-    var k=Math.min((vw-sx-92)/80,(vh-86)/120); if(k<0.4)k=0.4;
-    var dPx=S.d*k, hPx=Math.max(8,S.h*k), aPx=S.a*k;
-    var yc=vh*0.45+S.slip, loadX=sx+aPx;
+    var th=G.th, sin=Math.sin(th), cos=Math.cos(th);
+    var yc=vh*0.60;
+    var k=Math.min(2.6,(yc-36)/(S.a+S.d/2));
+    var needX=(S.a+S.d/2)*Math.tan(th)+S.t+S.D*sin;        // horizontal reach of the plate in mm
+    var maxX=vw-110-vw*0.30;
+    if(needX*k>maxX)k=maxX/needX;
+    if(k<0.5)k=0.5;
+    var dPx=Math.max(3,S.d*k), tPx=Math.max(3,S.t*k), Dpx=S.D*k, wPx=G.w*k, aPx=S.a*k;
+    var ux=sin, uy=-cos, vx=cos, vy=sin;                   // along plate (up) / through thickness
+    var bx=vw*0.30+S.slip, by=yc+dPx/2;                    // lower contact B
+    var Ax=bx+wPx, Ay=yc-dPx/2;                            // upper contact A
 
-    var cLeft=sx-dPx/2-96, cRight=Math.max(loadX+46,sx+dPx/2+92);
-    var dx=Math.round(vw/2-(cLeft+cRight)/2); if(cLeft+dx<8)dx=8-cLeft;
-    ctx.save();ctx.translate(dx,0);
+    // rod (fixed) with dash-dot centreline
+    ctx.fillStyle=C.tealF;ctx.strokeStyle=C.tealS;ctx.lineWidth=1.5;
+    ctx.beginPath();ctx.rect(8,yc-dPx/2,vw-16,dPx);ctx.fill();ctx.stroke();
+    ctx.setLineDash([12,4,3,4]);ctx.strokeStyle=C.ter;ctx.lineWidth=1;ctx.globalAlpha=0.6;
+    ctx.beginPath();ctx.moveTo(8,yc);ctx.lineTo(vw-8,yc);ctx.stroke();ctx.setLineDash([]);ctx.globalAlpha=1;
 
-    rotRect(sx,vh/2,dPx,vh-30,0,C.tealF,C.tealS);
-    var bw=26,bh=hPx+34,tilt=0.07;
-    rotRect(sx-dPx/2-bw/2,yc,bw,bh,tilt,C.pinkF,C.pinkS);
-    rotRect(sx+dPx/2+bw/2,yc,bw,bh,tilt,C.pinkF,C.pinkS);
-    ctx.strokeStyle=C.pinkS;ctx.fillStyle=C.pinkF;ctx.lineWidth=1.5;
-    var rt=Math.max(3,dPx*0.55),rx=sx+dPx/2+bw-4;
-    ctx.beginPath();ctx.rect(rx,yc-rt/2,loadX-rx+6,rt);ctx.fill();ctx.stroke();
-    ctx.setLineDash([4,4]);ctx.strokeStyle=C.ter;ctx.lineWidth=1;ctx.beginPath();ctx.moveTo(loadX,yc);ctx.lineTo(loadX,yc+72);ctx.stroke();ctx.setLineDash([]);
-    arrow(loadX,yc-54,0,46,C.text,3.5,'F');
+    // plate (canted): two pieces of the cut sheet, hole gap D between them along the plate
+    var yF=yc-aPx;
+    var sF=(by-yF+(tPx/2)*vy)/Math.max(0.18,cos);
+    var sEnd=sF+28;
+    if(ux>0.03)sEnd=Math.min(sEnd,(vw-12-bx)/ux);
+    sEnd=Math.min(sEnd,(by-12)/Math.max(0.18,cos));
+    sEnd=Math.max(sEnd,Dpx+30);
+    var Ll=Math.min(76,(vh-12-by)/Math.max(0.18,cos));
+    rotRect(bx-(Ll/2)*ux+(tPx/2)*vx, by-(Ll/2)*uy+(tPx/2)*vy, tPx, Ll, th, C.pinkF, C.pinkS);
+    var mid=(Dpx+sEnd)/2;
+    rotRect(bx+mid*ux+(tPx/2)*vx, by+mid*uy+(tPx/2)*vy, tPx, sEnd-Dpx, th, C.pinkF, C.pinkS);
 
-    var xA=sx-dPx/2, yA=yc-hPx/2, xB=sx+dPx/2, yB=yc+hPx/2;
+    // force along the rod, a above the axis
+    var pfx=bx+sF*ux+(tPx/2)*vx, tipx=pfx-(tPx/2)*vx-4;
+    ctx.setLineDash([4,4]);ctx.strokeStyle=C.ter;ctx.lineWidth=1;
+    ctx.beginPath();ctx.moveTo(pfx,yc);ctx.lineTo(pfx,yF);ctx.stroke();ctx.setLineDash([]);
+    arrow(tipx-58,yF,58,0,C.text,3.5);
+    ctx.fillStyle=C.text;ctx.font='600 13px '+sans;ctx.fillText('F',tipx-74,yF+4);
+
+    // friction cones at the diagonal contacts
     var col=locked?C.teal:C.red;
-    wedge(xA,yA,Math.PI+rho,Math.PI-rho,86,col);
-    wedge(xB,yB,rho,-rho,86,col);
+    wedge(Ax,Ay,-Math.PI/2-rho,-Math.PI/2+rho,86,col);
+    wedge(bx,by,Math.PI/2-rho,Math.PI/2+rho,86,col);
 
-    var P=inter([xA,yA],[-Math.cos(rho),-Math.sin(rho)],[xB,yB],[Math.cos(rho),-Math.sin(rho)]);
+    // cone edges cross at height w/2μ above the axis — the self-locking limit
+    var P=inter([Ax,Ay],[-Math.sin(rho),-Math.cos(rho)],[bx,by],[Math.sin(rho),-Math.cos(rho)]);
     if(P){
       ctx.strokeStyle=C.sec;ctx.globalAlpha=0.45;ctx.lineWidth=1;
-      ctx.beginPath();ctx.moveTo(xA,yA);ctx.lineTo(P[0],P[1]);ctx.stroke();
-      ctx.beginPath();ctx.moveTo(xB,yB);ctx.lineTo(P[0],P[1]);ctx.stroke();ctx.globalAlpha=1;
-      if(P[0]>sx&&P[0]<vw-dx-2){
+      ctx.beginPath();ctx.moveTo(Ax,Ay);ctx.lineTo(P[0],P[1]);ctx.stroke();
+      ctx.beginPath();ctx.moveTo(bx,by);ctx.lineTo(P[0],P[1]);ctx.stroke();ctx.globalAlpha=1;
+      if(P[1]>24&&P[1]<yc-4){
         ctx.setLineDash([5,4]);ctx.strokeStyle=C.sec;ctx.lineWidth=1.2;
-        ctx.beginPath();ctx.moveTo(P[0],26);ctx.lineTo(P[0],vh-16);ctx.stroke();ctx.setLineDash([]);
-        ctx.fillStyle=C.sec;ctx.font='12px '+sans;ctx.fillText('Grenze a = h/2μ',P[0]+5,38);
+        ctx.beginPath();ctx.moveTo(12,P[1]);ctx.lineTo(vw-12,P[1]);ctx.stroke();ctx.setLineDash([]);
+        ctx.fillStyle=C.sec;ctx.font='12px '+sans;ctx.fillText('Limit a = w/2μ',16,P[1]-6);
         ctx.fillStyle=col;ctx.beginPath();ctx.arc(P[0],P[1],4.5,0,7);ctx.fill();
       }
     }
-    arrow(xA,yA,72*Math.cos(Math.PI+beta),72*Math.sin(Math.PI+beta),col,3,'R');
-    arrow(xB,yB,72*Math.cos(-beta),72*Math.sin(-beta),col,3,'R');
-    ctx.fillStyle=col;ctx.beginPath();ctx.arc(xA,yA,4,0,7);ctx.fill();ctx.beginPath();ctx.arc(xB,yB,4,0,7);ctx.fill();
+    arrow(Ax,Ay,72*-Math.sin(beta),72*-Math.cos(beta),col,3,'R');
+    arrow(bx,by,72*-Math.sin(beta),72*Math.cos(beta),col,3,'R');
+    ctx.fillStyle=col;ctx.beginPath();ctx.arc(Ax,Ay,4,0,7);ctx.fill();ctx.beginPath();ctx.arc(bx,by,4,0,7);ctx.fill();
 
-    if(S.hover==='a'){
-      dimLinear(sx,yc,loadX,yc,0,1,(vh-28)-yc,'a = '+S.a+' mm',C.info,C);
-    }else if(S.hover==='h'){
-      var lx=sx-dPx/2-bw,dimX=Math.max(40,lx-34);
-      dimLinear(lx,yc-hPx/2,lx,yc+hPx/2,-1,0,lx-dimX,'h = '+S.h+' mm',C.info,C);
+    // contact distance w — always dimensioned, it is the derived quantity
+    ctx.setLineDash([3,3]);ctx.strokeStyle=C.ter;ctx.lineWidth=1;ctx.globalAlpha=0.6;
+    ctx.beginPath();ctx.moveTo(Ax,Ay);ctx.lineTo(Ax,by+40);ctx.stroke();ctx.setLineDash([]);ctx.globalAlpha=1;
+    dimLinear(bx,by,Ax,by,0,1,36,'',C.ter,C);
+    dimLabel(Math.max((bx+Ax)/2,bx+56),by+36,'w = '+mm(G.w),C.ter,C);
+
+    if(S.hover==='d'){
+      var xd=Math.max(40,bx-110);
+      dimLinear(xd,yc-dPx/2,xd,yc+dPx/2,-1,0,26,'d = '+mm(S.d),C.info,C);
+    }else if(S.hover==='D'){
+      dimLinear(bx,by,bx+Dpx*ux,by+Dpx*uy,-vx,-vy,24,'D = '+mm(S.D),C.info,C);
+    }else if(S.hover==='t'){
+      var s1=Dpx+44,p1x=bx+s1*ux,p1y=by+s1*uy;
+      dimLinear(p1x,p1y,p1x+tPx*vx,p1y+tPx*vy,ux,uy,28,'t = '+mm(S.t),C.info,C);
+    }else if(S.hover==='a'){
+      dimLinear(pfx,yc,pfx,yF,1,0,48,'a = '+S.a+' mm',C.info,C);
     }else if(S.hover==='mu'){
       var rdeg=(rho*180/Math.PI).toFixed(1);
-      dimAngle(xB,yB,0,-rho,44,'ρ = '+rdeg+'°  (μ = '+S.mu.toFixed(2)+')',C.info,C);
-      dimAngle(xA,yA,Math.PI,rho,44,'',C.info,C);
+      dimAngle(Ax,Ay,-Math.PI/2,rho,44,'ρ = '+rdeg+'°  (μ = '+S.mu.toFixed(2)+')',C.info,C);
+      dimAngle(bx,by,Math.PI/2,rho,44,'',C.info,C);
     }
-    ctx.restore();
     requestAnimationFrame(render);
   }
   function update(){
-    var rho=Math.atan(S.mu)*180/Math.PI,beta=Math.atan(S.h/(2*S.a))*180/Math.PI,locked=beta<=rho+1e-9;
+    var G=geom();
+    var rho=Math.atan(S.mu)*180/Math.PI,beta=Math.atan(G.w/(2*S.a))*180/Math.PI,locked=beta<=rho+1e-9;
+    document.getElementById('d-out').textContent=mm(S.d);
+    document.getElementById('D-out').textContent=mm(S.D);
+    document.getElementById('t-out').textContent=mm(S.t);
     document.getElementById('a-out').textContent=S.a+' mm';
-    document.getElementById('h-out').textContent=S.h+' mm';
     document.getElementById('mu-out').textContent=S.mu.toFixed(2);
     var ps=document.getElementById('pair'),pv='';
     for(var pi=0;pi<ps.options.length;pi++){if(ps.options[pi].value&&Math.abs(parseFloat(ps.options[pi].value)-S.mu)<5e-3){pv=ps.options[pi].value;break;}}
     ps.value=pv;
-    document.getElementById('ah-out').textContent=(S.a/S.h).toFixed(1);
+    document.getElementById('aw-out').textContent=(S.a/G.w).toFixed(1);
     document.getElementById('thr-out').textContent=(1/(2*S.mu)).toFixed(1);
     document.getElementById('beta-out').textContent=beta.toFixed(1)+'°';
     document.getElementById('rho-out').textContent=rho.toFixed(1)+'°';
+    document.getElementById('theta-out').textContent=(G.th*180/Math.PI).toFixed(1)+'°';
+    document.getElementById('w-out').textContent=mm(G.w);
     document.getElementById('bar-b').style.width=Math.min(100,beta/45*100).toFixed(0)+'%';
     document.getElementById('bar-r').style.width=Math.min(100,rho/45*100).toFixed(0)+'%';
+    document.getElementById('bar-t').style.width=Math.min(100,(G.th*180/Math.PI)/45*100).toFixed(0)+'%';
+    document.getElementById('bar-w').style.width=Math.min(100,G.w/30*100).toFixed(0)+'%';
     var b=document.getElementById('banner'),bi=document.getElementById('b-icon'),bt=document.getElementById('b-title'),bs=document.getElementById('b-sub');
     if(locked){
-      b.style.background='var(--color-background-success)';bi.className='ti ti-lock';bt.textContent='Selbsthemmung — Hülse klemmt';
+      b.style.background='var(--color-background-success)';bi.className='ti ti-lock';bt.textContent='Self-locking — plate jams';
       bt.style.color='var(--color-text-success)';bs.style.color='var(--color-text-success)';
-      bs.textContent='β = '+beta.toFixed(1)+'° ≤ ρ = '+rho.toFixed(1)+'°  →  Reaktion bleibt im Reibkegel';
+      bs.textContent='β = '+beta.toFixed(1)+'° ≤ ρ = '+rho.toFixed(1)+'°  →  reaction stays inside the friction cone';
     }else{
-      b.style.background='var(--color-background-danger)';bi.className='ti ti-arrow-down';bt.textContent='keine Selbsthemmung — rutscht ab';
+      b.style.background='var(--color-background-danger)';bi.className='ti ti-arrow-right';bt.textContent='no self-locking — plate slides';
       bt.style.color='var(--color-text-danger)';bs.style.color='var(--color-text-danger)';
-      bs.textContent='β = '+beta.toFixed(1)+'° > ρ = '+rho.toFixed(1)+'°  →  Reaktion verlässt den Reibkegel';
+      bs.textContent='β = '+beta.toFixed(1)+'° > ρ = '+rho.toFixed(1)+'°  →  reaction leaves the friction cone';
     }
   }
-  ['a','h'].forEach(function(id){document.getElementById(id).addEventListener('input',function(e){S[id]=parseInt(e.target.value);update();});});
+  function syncSliders(){
+    document.getElementById('d').value=S.d;
+    document.getElementById('D').value=S.D;
+  }
+  document.getElementById('d').addEventListener('input',function(e){
+    S.d=parseFloat(e.target.value);
+    if(S.D<S.d+0.5){S.D=S.d+0.5;syncSliders();}
+    update();
+  });
+  document.getElementById('D').addEventListener('input',function(e){
+    S.D=parseFloat(e.target.value);
+    if(S.d>S.D-0.5){S.d=S.D-0.5;syncSliders();}
+    update();
+  });
+  ['t','a'].forEach(function(id){document.getElementById(id).addEventListener('input',function(e){S[id]=parseFloat(e.target.value);update();});});
   document.getElementById('mu').addEventListener('input',function(e){S.mu=parseFloat(e.target.value);update();});
-  ['a','h','mu'].forEach(function(id){
+  ['d','D','t','a','mu'].forEach(function(id){
     var el=document.getElementById(id);
     el.addEventListener('pointerenter',function(){S.hover=id;});
     el.addEventListener('pointerleave',function(){if(S.drag!==id)S.hover=null;});
