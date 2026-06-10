@@ -4,15 +4,18 @@ Interactive, dependency-free visualizations of **self-locking by canting**
 (*Selbsthemmung durch Verkanten*) — vanilla JS + `<canvas>`, no build step, no
 framework. Light/dark theming follows the OS preference.
 
-Two demos, each available in two languages (switcher in the top-right corner):
+Two demos behind a landing page, each available in two languages (switcher in
+the top-right corner):
 
-| Demo | English | Deutsch |
+| Page | English | Deutsch |
 | --- | --- | --- |
-| **Part I — Sleeve on a shaft**: a loose sleeve on a fixed shaft is loaded on a lever arm, cants, and pinches the shaft at two diagonal contacts | [`index.html`](index.html) | [`index.de.html`](index.de.html) |
+| **Landing page** — pick a scenario | [`index.html`](index.html) | [`index.de.html`](index.de.html) |
+| **Part I — Sleeve on a shaft**: a loose sleeve on a fixed shaft is loaded on a lever arm, cants, and pinches the shaft at two diagonal contacts | [`sleeve.html`](sleeve.html) | [`sleeve.de.html`](sleeve.de.html) |
 | **Part II — Tilted plate on a rod**: a sheet with a clearance hole cants on a rod; the diameters set the tilt angle and contact distance | [`plate.html`](plate.html) | [`plate.de.html`](plate.de.html) |
 
 All pages are self-contained; each language pair shares identical physics and
-interaction code.
+interaction code. Every demo page links back to the overview and to its sibling
+demo.
 
 ## The physics
 
@@ -45,7 +48,7 @@ It tilts until both hole edges touch the rod at two diagonal contacts:
 
 ## Parameters
 
-### Part I (`index.html`)
+### Part I (`sleeve.html`)
 
 | Control | Meaning | Range |
 | --- | --- | --- |

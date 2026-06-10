@@ -4,7 +4,7 @@
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 <title>Selbsthemmung durch Verkanten — interaktiv</title>
-<meta name="description" content="Interaktive Demonstration der Selbsthemmung durch Verkanten: eine Hülse auf einer Welle mit Reibungskegeln." />
+<meta name="description" content="Interaktive Demonstrationen der Selbsthemmung durch Verkanten: eine Hülse auf einer Welle und eine verkantete Platte auf einer Stange, jeweils mit Reibungskegeln." />
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@3/dist/tabler-icons.min.css" />
 <link rel="preconnect" href="https://fonts.googleapis.com" />
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
@@ -18,6 +18,7 @@
     --color-border-tertiary:rgba(0,0,0,0.08); --color-border-secondary:rgba(0,0,0,0.28);
     --border-radius-lg:16px; --border-radius-md:12px;
     --grid:rgba(31,95,174,0.06);
+    --pinkF:#F4C0D1; --pinkS:#993556; --tealF:#9FE1CB; --tealS:#0F6E56;
   }
   @media (prefers-color-scheme: dark){
     :root{
@@ -27,6 +28,7 @@
       --color-text-success:#4cc59c; --color-text-danger:#e5816f; --color-text-info:#6ba6e8;
       --color-border-tertiary:rgba(255,255,255,0.09); --color-border-secondary:rgba(255,255,255,0.3);
       --grid:rgba(107,166,232,0.08);
+      --pinkF:#5b2740; --pinkS:#ED93B1; --tealF:#0c3a30; --tealS:#5DCAA5;
     }
   }
   *{box-sizing:border-box;}
@@ -41,46 +43,24 @@
     min-height:100vh;
   }
   .wrap{max-width:780px;margin:0 auto;padding:48px 20px 64px;}
-  header{margin-bottom:28px;}
+  header{margin-bottom:8px;}
   .kicker{font-family:"IBM Plex Mono",monospace;font-size:12px;letter-spacing:0.22em;text-transform:uppercase;color:var(--color-text-info);margin:0 0 10px;}
   h1{font-family:"Fraunces",serif;font-weight:500;font-size:clamp(30px,6vw,46px);line-height:1.05;margin:0 0 12px;letter-spacing:-0.01em;}
   h1 em{font-style:italic;color:var(--color-text-secondary);}
-  .lede{color:var(--color-text-secondary);font-size:15.5px;max-width:60ch;margin:0;}
-  .series{margin:14px 0 0;font-family:"IBM Plex Mono",monospace;font-size:13px;}
-  .series a{color:var(--color-text-info);text-decoration:none;}
-  .series a:hover{text-decoration:underline;}
-  .card{background:color-mix(in srgb,var(--color-background-primary) 86%,transparent);backdrop-filter:blur(2px);border:1px solid var(--color-border-tertiary);border-radius:var(--border-radius-lg);padding:18px 18px 22px;margin-top:28px;box-shadow:0 1px 0 rgba(0,0,0,0.02),0 18px 40px -28px rgba(0,0,0,0.35);}
-  #banner{display:flex;align-items:center;gap:10px;padding:12px 14px;border-radius:var(--border-radius-lg);margin-bottom:14px;font-size:15px;}
-  #banner i{font-size:22px;}
-  #b-title{font-weight:600;}
-  #b-sub{font-size:13px;}
-  .canvas-wrap{width:100%;background:var(--color-background-secondary);border-radius:var(--border-radius-lg);border:1px solid var(--color-border-tertiary);}
-  canvas{display:block;width:100%;height:330px;}
-  .row{display:flex;align-items:center;gap:12px;margin:14px 0 0;}
-  .row label{font-size:14px;color:var(--color-text-secondary);min-width:160px;}
-  .row .val{font-family:"IBM Plex Mono",monospace;font-size:14px;font-weight:600;min-width:62px;text-align:right;}
-  input[type=range]{flex:1;-webkit-appearance:none;appearance:none;height:5px;border-radius:99px;background:var(--color-border-tertiary);outline:none;}
-  input[type=range]::-webkit-slider-thumb{-webkit-appearance:none;width:18px;height:18px;border-radius:50%;background:var(--color-text-info);cursor:pointer;border:3px solid var(--color-background-primary);box-shadow:0 1px 4px rgba(0,0,0,0.3);}
-  input[type=range]::-moz-range-thumb{width:18px;height:18px;border-radius:50%;background:var(--color-text-info);cursor:pointer;border:3px solid var(--color-background-primary);}
-  .row select{flex:1;-webkit-appearance:none;appearance:none;font-family:"IBM Plex Sans",system-ui,sans-serif;font-size:14px;color:var(--color-text-primary);background-color:var(--color-background-secondary);border:1px solid var(--color-border-tertiary);border-radius:var(--border-radius-md);padding:9px 36px 9px 12px;cursor:pointer;line-height:1.2;background-image:url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8' fill='none' stroke='%23938d7e' stroke-width='1.6' stroke-linecap='round'><path d='M1 1.5l5 5 5-5'/></svg>");background-repeat:no-repeat;background-position:right 13px center;transition:border-color .15s ease;}
-  .row select:hover{border-color:var(--color-border-secondary);}
-  .row select:focus{outline:none;border-color:var(--color-text-info);box-shadow:0 0 0 3px color-mix(in srgb,var(--color-text-info) 18%,transparent);}
-  .row select option{background:var(--color-background-primary);color:var(--color-text-primary);}
-  .cond{text-align:right;font-size:13px;color:var(--color-text-tertiary);margin:14px 0 0;font-family:"IBM Plex Mono",monospace;}
-  .cond b{color:var(--color-text-secondary);font-weight:600;}
-  .cards{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-top:16px;}
-  .metric{background:var(--color-background-secondary);border-radius:var(--border-radius-md);padding:0.85rem 1rem;}
-  .metric .lbl{font-size:13px;display:flex;align-items:center;gap:6px;}
-  .metric .lbl i{font-size:15px;}
-  .metric .bar{height:8px;background:var(--color-background-primary);border-radius:99px;margin:8px 0 6px;overflow:hidden;}
-  .metric .bar span{display:block;height:100%;border-radius:99px;}
-  .metric .num{font-family:"IBM Plex Mono",monospace;font-size:18px;font-weight:600;}
-  .formula{margin-top:28px;padding:18px 20px;border-left:3px solid var(--color-text-info);background:var(--color-background-info);border-radius:0 var(--border-radius-md) var(--border-radius-md) 0;}
-  .formula .eq{font-family:"IBM Plex Mono",monospace;font-size:17px;font-weight:600;color:var(--color-text-info);margin:0 0 8px;}
-  .formula p{margin:0;color:var(--color-text-secondary);font-size:14.5px;}
-  footer{margin-top:30px;font-size:12.5px;color:var(--color-text-tertiary);font-family:"IBM Plex Mono",monospace;display:flex;justify-content:space-between;flex-wrap:wrap;gap:8px;}
-  footer a{color:var(--color-text-info);text-decoration:none;}
-  .sr-only{position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0,0,0,0);border:0;}
+  .lede{color:var(--color-text-secondary);font-size:15.5px;max-width:62ch;margin:0;}
+  .choices{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-top:30px;}
+  @media (max-width:620px){.choices{grid-template-columns:1fr;}}
+  a.choice{display:flex;flex-direction:column;background:color-mix(in srgb,var(--color-background-primary) 86%,transparent);backdrop-filter:blur(2px);border:1px solid var(--color-border-tertiary);border-radius:var(--border-radius-lg);padding:16px 16px 18px;text-decoration:none;color:inherit;box-shadow:0 1px 0 rgba(0,0,0,0.02),0 18px 40px -28px rgba(0,0,0,0.35);transition:border-color .15s ease,transform .15s ease;}
+  a.choice:hover{border-color:var(--color-text-info);transform:translateY(-2px);}
+  a.choice:focus-visible{outline:none;border-color:var(--color-text-info);box-shadow:0 0 0 3px color-mix(in srgb,var(--color-text-info) 18%,transparent);}
+  .choice .fig{background:var(--color-background-secondary);border:1px solid var(--color-border-tertiary);border-radius:var(--border-radius-md);padding:10px;margin-bottom:14px;}
+  .choice .fig svg{display:block;width:100%;height:auto;}
+  .choice .part{font-family:"IBM Plex Mono",monospace;font-size:11.5px;letter-spacing:0.18em;text-transform:uppercase;color:var(--color-text-info);margin:0 0 6px;}
+  .choice h2{font-family:"Fraunces",serif;font-weight:500;font-size:22px;margin:0 0 8px;line-height:1.15;}
+  .choice p.desc{margin:0;font-size:14px;color:var(--color-text-secondary);flex:1;}
+  .choice .go{margin-top:14px;font-family:"IBM Plex Mono",monospace;font-size:13px;font-weight:600;color:var(--color-text-info);display:flex;align-items:center;gap:6px;}
+  a.choice:hover .go{text-decoration:underline;}
+  footer{margin-top:34px;font-size:12.5px;color:var(--color-text-tertiary);font-family:"IBM Plex Mono",monospace;display:flex;justify-content:space-between;flex-wrap:wrap;gap:8px;}
   .lang{position:fixed;top:14px;right:16px;z-index:10;display:flex;gap:3px;font-family:"IBM Plex Mono",monospace;font-size:12px;letter-spacing:0.06em;background:color-mix(in srgb,var(--color-background-primary) 80%,transparent);backdrop-filter:blur(4px);border:1px solid var(--color-border-tertiary);border-radius:99px;padding:3px;}
   .lang a{color:var(--color-text-tertiary);text-decoration:none;padding:3px 9px;border-radius:99px;line-height:1;}
   .lang a:hover{color:var(--color-text-primary);}
@@ -96,57 +76,52 @@
   <header>
     <p class="kicker">Technische Mechanik · Reibung</p>
     <h1>Selbsthemmung <em>durch Verkanten</em></h1>
-    <p class="lede">Eine lose Hülse auf einer festen Welle wird über einen Hebelarm belastet, verkantet und klemmt die Welle an zwei diagonalen Kontaktpunkten. Die Resultierende in jedem Kontakt muss innerhalb ihres Reibungskegels bleiben — dann hält die Klemmung, unabhängig von der Last.</p>
-    <p class="series"><a href="plate.de.html">Teil II · Verkantete Platte auf einer Stange — mit den Durchmessern spielen <i class="ti ti-arrow-right" aria-hidden="true"></i></a></p>
+    <p class="lede">Ein Bauteil mit Spiel kippt unter Last und klemmt an zwei diagonalen Kontaktpunkten. Solange die Resultierende in jedem Kontakt innerhalb ihres Reibungskegels bleibt, hält die Klemmung — egal wie stark man drückt. Zwei interaktive Szenarien:</p>
   </header>
 
-  <section class="card" aria-label="Interaktive Simulation">
-    <h2 class="sr-only">Interaktive Simulation der Selbsthemmung durch Verkanten. Stellen Sie Lastabstand, Abstand der Kontaktpunkte und Reibungszahl ein.</h2>
-    <div id="banner">
-      <i id="b-icon" class="ti ti-lock" aria-hidden="true"></i>
-      <div>
-        <div id="b-title">Selbsthemmung — Hülse klemmt</div>
-        <div id="b-sub"></div>
-      </div>
-    </div>
+  <div class="choices">
+    <a class="choice" href="sleeve.de.html">
+      <span class="fig" aria-hidden="true">
+        <svg viewBox="0 0 220 130">
+          <rect x="62" y="8" width="16" height="114" rx="2" fill="var(--tealF)" stroke="var(--tealS)" stroke-width="1.5"/>
+          <g transform="rotate(4 70 60)">
+            <rect x="42" y="38" width="15" height="44" rx="2" fill="var(--pinkF)" stroke="var(--pinkS)" stroke-width="1.5"/>
+            <rect x="83" y="38" width="15" height="44" rx="2" fill="var(--pinkF)" stroke="var(--pinkS)" stroke-width="1.5"/>
+            <rect x="96" y="55" width="68" height="9" rx="2" fill="var(--pinkF)" stroke="var(--pinkS)" stroke-width="1.5"/>
+          </g>
+          <circle cx="62" cy="44" r="3.2" fill="var(--tealS)"/>
+          <circle cx="78" cy="80" r="3.2" fill="var(--tealS)"/>
+          <line x1="160" y1="74" x2="160" y2="102" stroke="var(--color-text-primary)" stroke-width="3" stroke-linecap="round"/>
+          <polygon points="160,112 154,100 166,100" fill="var(--color-text-primary)"/>
+          <text x="170" y="98" font-family="IBM Plex Mono, monospace" font-size="13" font-weight="600" fill="var(--color-text-primary)">F</text>
+        </svg>
+      </span>
+      <p class="part">Teil I</p>
+      <h2>Hülse auf einer Welle</h2>
+      <p class="desc">Eine lose Hülse wird über einen Hebelarm belastet und verkantet auf einer senkrechten Welle. Stellen Sie Hebelarm, Kontaktabstand und Reibung ein.</p>
+      <span class="go">Simulation öffnen <i class="ti ti-arrow-right" aria-hidden="true"></i></span>
+    </a>
 
-    <div class="canvas-wrap"><canvas id="cv"></canvas></div>
-
-    <div class="row"><label>Lastabstand a (Hebelarm)</label><input type="range" min="5" max="80" step="1" value="70" id="a" /><span class="val" id="a-out">70 mm</span></div>
-    <div class="row"><label>Abstand Kontaktpunkte h</label><input type="range" min="5" max="120" step="1" value="30" id="h" /><span class="val" id="h-out">30 mm</span></div>
-    <div class="row"><label>Reibungszahl μ</label><input type="range" min="0.05" max="0.6" step="0.01" value="0.25" id="mu" /><span class="val" id="mu-out">0.25</span></div>
-    <div class="row"><label for="pair">Reibpaarung</label><select id="pair">
-      <option value="">— benutzerdefiniert —</option>
-      <option value="0.05">Stahl – PTFE (Teflon) · μ = 0.05</option>
-      <option value="0.10">Stahl – Stahl (geschmiert) · μ = 0.10</option>
-      <option value="0.15">Stahl – Stahl (trocken) · μ = 0.15</option>
-      <option value="0.19">Stahl – Bronze · μ = 0.19</option>
-      <option value="0.20">Stahl – Gusseisen · μ = 0.20</option>
-      <option value="0.35">Stahl – Messing · μ = 0.35</option>
-      <option value="0.45">Stahl – Aluminium · μ = 0.45</option>
-      <option value="0.50">Holz – Metall · μ = 0.50</option>
-      <option value="0.55">Aluminium – Aluminium · μ = 0.55</option>
-    </select></div>
-
-    <p class="cond">Bedingung: a/h = <b id="ah-out">2.7</b> ≥ 1/(2μ) = <b id="thr-out">2.0</b></p>
-
-    <div class="cards">
-      <div class="metric">
-        <div class="lbl" style="color:var(--color-text-danger)"><i class="ti ti-target" aria-hidden="true"></i>erforderlich · β = arctan(h/2a)</div>
-        <div class="bar"><span id="bar-b" style="width:24%;background:var(--color-text-danger)"></span></div>
-        <div class="num" id="beta-out">10.6°</div>
-      </div>
-      <div class="metric">
-        <div class="lbl" style="color:var(--color-text-success)"><i class="ti ti-cone" aria-hidden="true"></i>verfügbar · ρ = arctan(μ)</div>
-        <div class="bar"><span id="bar-r" style="width:31%;background:var(--color-text-success)"></span></div>
-        <div class="num" id="rho-out">14.0°</div>
-      </div>
-    </div>
-  </section>
-
-  <div class="formula">
-    <p class="eq">Selbsthemmung wenn&nbsp; a ≥ h / (2μ)</p>
-    <p>An der Rutschgrenze schöpfen beide Kontakte gleichzeitig μN aus; die beiden Reibungskräfte heben sich im Moment auf, daher fällt der Durchmesser aus der Bedingung heraus. Die oberen Kegelkanten kreuzen sich genau im Abstand h/(2μ) von der Wellenachse — der Selbsthemmungsgrenze.</p>
+    <a class="choice" href="plate.de.html">
+      <span class="fig" aria-hidden="true">
+        <svg viewBox="0 0 220 130">
+          <rect x="8" y="66" width="204" height="16" rx="2" fill="var(--tealF)" stroke="var(--tealS)" stroke-width="1.5"/>
+          <g transform="rotate(17 108 74)">
+            <rect x="102" y="2" width="13" height="60" rx="2" fill="var(--pinkF)" stroke="var(--pinkS)" stroke-width="1.5"/>
+            <rect x="102" y="88" width="13" height="36" rx="2" fill="var(--pinkF)" stroke="var(--pinkS)" stroke-width="1.5"/>
+          </g>
+          <circle cx="119" cy="66" r="3.2" fill="var(--tealS)"/>
+          <circle cx="103" cy="82" r="3.2" fill="var(--tealS)"/>
+          <line x1="66" y1="16" x2="94" y2="16" stroke="var(--color-text-primary)" stroke-width="3" stroke-linecap="round"/>
+          <polygon points="104,16 92,10 92,22" fill="var(--color-text-primary)"/>
+          <text x="50" y="21" font-family="IBM Plex Mono, monospace" font-size="13" font-weight="600" fill="var(--color-text-primary)">F</text>
+        </svg>
+      </span>
+      <p class="part">Teil II</p>
+      <h2>Verkantete Platte auf einer Stange</h2>
+      <p class="desc">Ein Blech mit Durchgangsloch verkantet auf einer Stange. Stangendurchmesser, Lochdurchmesser und Blechdicke bestimmen Kippwinkel und Kontaktabstand — spielen Sie mit den Durchmessern.</p>
+      <span class="go">Simulation öffnen <i class="ti ti-arrow-right" aria-hidden="true"></i></span>
+    </a>
   </div>
 
   <footer>
@@ -154,194 +129,5 @@
     <span>Reibungskegel ρ = arctan(μ)</span>
   </footer>
 </div>
-
-<script>
-(function(){
-  var cv=document.getElementById('cv'), ctx=cv.getContext('2d');
-  var sans='"IBM Plex Mono", monospace';
-  var S={a:70,h:30,d:5,mu:0.25,slip:0,v:0,last:0,hover:null};
-  var vw=620, vh=330, dpr=1, probe=document.createElement('span');
-  probe.style.cssText='position:absolute;visibility:hidden;background:var(--color-background-primary)';
-  document.body.appendChild(probe);
-
-  function cssv(n,f){var v=getComputedStyle(document.documentElement).getPropertyValue(n).trim();return v||f;}
-  function isDark(){var s=getComputedStyle(probe).backgroundColor,m=s.match(/[\d.]+/g);if(!m)return false;return (0.299*m[0]+0.587*m[1]+0.114*m[2])/255<0.5;}
-  function colors(){
-    var d=isDark();
-    return {text:cssv('--color-text-primary','#222'), sec:cssv('--color-text-secondary','#666'), ter:cssv('--color-text-tertiary','#999'),
-      teal:cssv('--color-text-success','#0f6e56'), red:cssv('--color-text-danger','#a32d2d'), info:cssv('--color-text-info','#1f5fae'),
-      bg:cssv('--color-background-secondary','#eee'),
-      pinkF:d?'#5b2740':'#F4C0D1', pinkS:d?'#ED93B1':'#993556', tealF:d?'#0c3a30':'#9FE1CB', tealS:d?'#5DCAA5':'#0F6E56'};
-  }
-  function resize(){var w=cv.clientWidth||620;dpr=window.devicePixelRatio||1;vw=w;vh=330;cv.width=Math.round(w*dpr);cv.height=Math.round(vh*dpr);ctx.setTransform(dpr,0,0,dpr,0,0);}
-  function arrow(x,y,dx,dy,col,lw,label){
-    var len=Math.hypot(dx,dy); if(len<2) return;
-    var ex=x+dx,ey=y+dy,ang=Math.atan2(dy,dx),hh=8;
-    ctx.strokeStyle=col;ctx.fillStyle=col;ctx.lineWidth=lw||2.5;ctx.lineCap='round';
-    ctx.beginPath();ctx.moveTo(x,y);ctx.lineTo(ex,ey);ctx.stroke();
-    ctx.beginPath();ctx.moveTo(ex,ey);ctx.lineTo(ex-hh*Math.cos(ang-0.45),ey-hh*Math.sin(ang-0.45));ctx.lineTo(ex-hh*Math.cos(ang+0.45),ey-hh*Math.sin(ang+0.45));ctx.closePath();ctx.fill();
-    if(label){ctx.font='600 12px '+sans;ctx.fillText(label,ex+6*Math.cos(ang)-3,ey+6*Math.sin(ang)+4);}
-  }
-  function rotRect(cx,cy,w,h,ang,fill,stroke){
-    ctx.save();ctx.translate(cx,cy);ctx.rotate(ang);ctx.fillStyle=fill;ctx.strokeStyle=stroke;ctx.lineWidth=1.5;
-    var r=3;ctx.beginPath();ctx.moveTo(-w/2+r,-h/2);ctx.arcTo(w/2,-h/2,w/2,h/2,r);ctx.arcTo(w/2,h/2,-w/2,h/2,r);ctx.arcTo(-w/2,h/2,-w/2,-h/2,r);ctx.arcTo(-w/2,-h/2,w/2,-h/2,r);ctx.closePath();ctx.fill();ctx.stroke();ctx.restore();
-  }
-  function wedge(x,y,a1,a2,L,col){
-    ctx.save();ctx.globalAlpha=0.13;ctx.fillStyle=col;ctx.beginPath();ctx.moveTo(x,y);
-    ctx.lineTo(x+L*Math.cos(a1),y+L*Math.sin(a1));ctx.lineTo(x+L*Math.cos(a2),y+L*Math.sin(a2));ctx.closePath();ctx.fill();ctx.restore();
-    ctx.strokeStyle=col;ctx.globalAlpha=0.5;ctx.lineWidth=1;
-    ctx.beginPath();ctx.moveTo(x,y);ctx.lineTo(x+L*Math.cos(a1),y+L*Math.sin(a1));ctx.stroke();
-    ctx.beginPath();ctx.moveTo(x,y);ctx.lineTo(x+L*Math.cos(a2),y+L*Math.sin(a2));ctx.stroke();ctx.globalAlpha=1;
-  }
-  function inter(p1,d1,p2,d2){var den=d1[0]*d2[1]-d1[1]*d2[0];if(Math.abs(den)<1e-6)return null;var t=((p2[0]-p1[0])*d2[1]-(p2[1]-p1[1])*d2[0])/den;return [p1[0]+t*d1[0],p1[1]+t*d1[1]];}
-
-  // --- technical-drawing dimension helpers ---
-  function dimArrowhead(tx,ty,dx,dy,col){
-    var ang=Math.atan2(dy,dx),hh=7,w=0.34;
-    ctx.fillStyle=col;ctx.beginPath();ctx.moveTo(tx,ty);
-    ctx.lineTo(tx-hh*Math.cos(ang-w),ty-hh*Math.sin(ang-w));
-    ctx.lineTo(tx-hh*Math.cos(ang+w),ty-hh*Math.sin(ang+w));
-    ctx.closePath();ctx.fill();
-  }
-  function dimLabel(mx,my,label,col,C){
-    if(!label)return;
-    ctx.font='600 12px '+sans;ctx.textAlign='center';ctx.textBaseline='middle';
-    var tw=ctx.measureText(label).width;
-    ctx.fillStyle=C.bg;ctx.fillRect(mx-tw/2-4,my-9,tw+8,18);
-    ctx.fillStyle=col;ctx.fillText(label,mx,my);
-    ctx.textAlign='left';ctx.textBaseline='alphabetic';
-  }
-  function dimLinear(ax,ay,bx,by,nx,ny,off,label,col,C){
-    var d1x=ax+nx*off,d1y=ay+ny*off,d2x=bx+nx*off,d2y=by+ny*off;
-    ctx.save();ctx.setLineDash([]);ctx.strokeStyle=col;ctx.lineWidth=1;
-    ctx.beginPath();ctx.moveTo(ax+nx*3,ay+ny*3);ctx.lineTo(d1x+nx*5,d1y+ny*5);ctx.stroke();
-    ctx.beginPath();ctx.moveTo(bx+nx*3,by+ny*3);ctx.lineTo(d2x+nx*5,d2y+ny*5);ctx.stroke();
-    ctx.beginPath();ctx.moveTo(d1x,d1y);ctx.lineTo(d2x,d2y);ctx.stroke();
-    var ux=d2x-d1x,uy=d2y-d1y,L=Math.hypot(ux,uy)||1;ux/=L;uy/=L;
-    dimArrowhead(d1x,d1y,-ux,-uy,col);dimArrowhead(d2x,d2y,ux,uy,col);
-    dimLabel((d1x+d2x)/2,(d1y+d2y)/2,label,col,C);
-    ctx.restore();
-  }
-  function dimAngle(cx,cy,base,sweep,r,label,col,C){
-    var a2=base+sweep,t=sweep<0?-1:1;
-    ctx.save();ctx.setLineDash([]);ctx.strokeStyle=col;ctx.lineWidth=1;
-    ctx.globalAlpha=0.55;
-    ctx.beginPath();ctx.moveTo(cx,cy);ctx.lineTo(cx+(r+12)*Math.cos(base),cy+(r+12)*Math.sin(base));ctx.stroke();
-    ctx.beginPath();ctx.moveTo(cx,cy);ctx.lineTo(cx+(r+12)*Math.cos(a2),cy+(r+12)*Math.sin(a2));ctx.stroke();
-    ctx.globalAlpha=1;
-    ctx.beginPath();ctx.arc(cx,cy,r,base,a2,sweep<0);ctx.stroke();
-    var p1x=cx+r*Math.cos(base),p1y=cy+r*Math.sin(base),p2x=cx+r*Math.cos(a2),p2y=cy+r*Math.sin(a2);
-    dimArrowhead(p1x,p1y,t*Math.sin(base),-t*Math.cos(base),col);
-    dimArrowhead(p2x,p2y,-t*Math.sin(a2),t*Math.cos(a2),col);
-    var ma=base+sweep/2;dimLabel(cx+(r+20)*Math.cos(ma),cy+(r+20)*Math.sin(ma),label,col,C);
-    ctx.restore();
-  }
-
-  function render(ts){
-    if(!S.last)S.last=ts;var dt=Math.min(0.05,(ts-S.last)/1000);S.last=ts;var C=colors();
-    var rho=Math.atan(S.mu),beta=Math.atan(S.h/(2*S.a)),locked=beta<=rho+1e-9;
-    if(locked){S.slip=0;S.v=0;}else{S.v+=14*dt;S.slip+=S.v*dt*22;if(S.slip>72){S.slip=0;S.v=0;}}
-    ctx.clearRect(0,0,vw,vh);
-
-    var sx=Math.max(150,vw*0.27);
-    var k=Math.min((vw-sx-92)/80,(vh-86)/120); if(k<0.4)k=0.4;
-    var dPx=S.d*k, hPx=Math.max(8,S.h*k), aPx=S.a*k;
-    var yc=vh*0.45+S.slip, loadX=sx+aPx;
-
-    var cLeft=sx-dPx/2-96, cRight=Math.max(loadX+46,sx+dPx/2+92);
-    var dx=Math.round(vw/2-(cLeft+cRight)/2); if(cLeft+dx<8)dx=8-cLeft;
-    ctx.save();ctx.translate(dx,0);
-
-    rotRect(sx,vh/2,dPx,vh-30,0,C.tealF,C.tealS);
-    var bw=26,bh=hPx+34,tilt=0.07;
-    rotRect(sx-dPx/2-bw/2,yc,bw,bh,tilt,C.pinkF,C.pinkS);
-    rotRect(sx+dPx/2+bw/2,yc,bw,bh,tilt,C.pinkF,C.pinkS);
-    ctx.strokeStyle=C.pinkS;ctx.fillStyle=C.pinkF;ctx.lineWidth=1.5;
-    var rt=Math.max(3,dPx*0.55),rx=sx+dPx/2+bw-4;
-    ctx.beginPath();ctx.rect(rx,yc-rt/2,loadX-rx+6,rt);ctx.fill();ctx.stroke();
-    ctx.setLineDash([4,4]);ctx.strokeStyle=C.ter;ctx.lineWidth=1;ctx.beginPath();ctx.moveTo(loadX,yc);ctx.lineTo(loadX,yc+72);ctx.stroke();ctx.setLineDash([]);
-    arrow(loadX,yc-54,0,46,C.text,3.5,'F');
-
-    var xA=sx-dPx/2, yA=yc-hPx/2, xB=sx+dPx/2, yB=yc+hPx/2;
-    var col=locked?C.teal:C.red;
-    wedge(xA,yA,Math.PI+rho,Math.PI-rho,86,col);
-    wedge(xB,yB,rho,-rho,86,col);
-
-    var P=inter([xA,yA],[-Math.cos(rho),-Math.sin(rho)],[xB,yB],[Math.cos(rho),-Math.sin(rho)]);
-    if(P){
-      ctx.strokeStyle=C.sec;ctx.globalAlpha=0.45;ctx.lineWidth=1;
-      ctx.beginPath();ctx.moveTo(xA,yA);ctx.lineTo(P[0],P[1]);ctx.stroke();
-      ctx.beginPath();ctx.moveTo(xB,yB);ctx.lineTo(P[0],P[1]);ctx.stroke();ctx.globalAlpha=1;
-      if(P[0]>sx&&P[0]<vw-dx-2){
-        ctx.setLineDash([5,4]);ctx.strokeStyle=C.sec;ctx.lineWidth=1.2;
-        ctx.beginPath();ctx.moveTo(P[0],26);ctx.lineTo(P[0],vh-16);ctx.stroke();ctx.setLineDash([]);
-        ctx.fillStyle=C.sec;ctx.font='12px '+sans;ctx.fillText('Grenze a = h/2μ',P[0]+5,38);
-        ctx.fillStyle=col;ctx.beginPath();ctx.arc(P[0],P[1],4.5,0,7);ctx.fill();
-      }
-    }
-    arrow(xA,yA,72*Math.cos(Math.PI+beta),72*Math.sin(Math.PI+beta),col,3,'R');
-    arrow(xB,yB,72*Math.cos(-beta),72*Math.sin(-beta),col,3,'R');
-    ctx.fillStyle=col;ctx.beginPath();ctx.arc(xA,yA,4,0,7);ctx.fill();ctx.beginPath();ctx.arc(xB,yB,4,0,7);ctx.fill();
-
-    if(S.hover==='a'){
-      dimLinear(sx,yc,loadX,yc,0,1,(vh-28)-yc,'a = '+S.a+' mm',C.info,C);
-    }else if(S.hover==='h'){
-      var lx=sx-dPx/2-bw,dimX=Math.max(40,lx-34);
-      dimLinear(lx,yc-hPx/2,lx,yc+hPx/2,-1,0,lx-dimX,'h = '+S.h+' mm',C.info,C);
-    }else if(S.hover==='mu'){
-      var rdeg=(rho*180/Math.PI).toFixed(1);
-      dimAngle(xB,yB,0,-rho,44,'ρ = '+rdeg+'°  (μ = '+S.mu.toFixed(2)+')',C.info,C);
-      dimAngle(xA,yA,Math.PI,rho,44,'',C.info,C);
-    }
-    ctx.restore();
-    requestAnimationFrame(render);
-  }
-  function update(){
-    var rho=Math.atan(S.mu)*180/Math.PI,beta=Math.atan(S.h/(2*S.a))*180/Math.PI,locked=beta<=rho+1e-9;
-    document.getElementById('a-out').textContent=S.a+' mm';
-    document.getElementById('h-out').textContent=S.h+' mm';
-    document.getElementById('mu-out').textContent=S.mu.toFixed(2);
-    var ps=document.getElementById('pair'),pv='';
-    for(var pi=0;pi<ps.options.length;pi++){if(ps.options[pi].value&&Math.abs(parseFloat(ps.options[pi].value)-S.mu)<5e-3){pv=ps.options[pi].value;break;}}
-    ps.value=pv;
-    document.getElementById('ah-out').textContent=(S.a/S.h).toFixed(1);
-    document.getElementById('thr-out').textContent=(1/(2*S.mu)).toFixed(1);
-    document.getElementById('beta-out').textContent=beta.toFixed(1)+'°';
-    document.getElementById('rho-out').textContent=rho.toFixed(1)+'°';
-    document.getElementById('bar-b').style.width=Math.min(100,beta/45*100).toFixed(0)+'%';
-    document.getElementById('bar-r').style.width=Math.min(100,rho/45*100).toFixed(0)+'%';
-    var b=document.getElementById('banner'),bi=document.getElementById('b-icon'),bt=document.getElementById('b-title'),bs=document.getElementById('b-sub');
-    if(locked){
-      b.style.background='var(--color-background-success)';bi.className='ti ti-lock';bt.textContent='Selbsthemmung — Hülse klemmt';
-      bt.style.color='var(--color-text-success)';bs.style.color='var(--color-text-success)';
-      bs.textContent='β = '+beta.toFixed(1)+'° ≤ ρ = '+rho.toFixed(1)+'°  →  Reaktion bleibt im Reibkegel';
-    }else{
-      b.style.background='var(--color-background-danger)';bi.className='ti ti-arrow-down';bt.textContent='keine Selbsthemmung — rutscht ab';
-      bt.style.color='var(--color-text-danger)';bs.style.color='var(--color-text-danger)';
-      bs.textContent='β = '+beta.toFixed(1)+'° > ρ = '+rho.toFixed(1)+'°  →  Reaktion verlässt den Reibkegel';
-    }
-  }
-  ['a','h'].forEach(function(id){document.getElementById(id).addEventListener('input',function(e){S[id]=parseInt(e.target.value);update();});});
-  document.getElementById('mu').addEventListener('input',function(e){S.mu=parseFloat(e.target.value);update();});
-  ['a','h','mu'].forEach(function(id){
-    var el=document.getElementById(id);
-    el.addEventListener('pointerenter',function(){S.hover=id;});
-    el.addEventListener('pointerleave',function(){if(S.drag!==id)S.hover=null;});
-    el.addEventListener('pointerdown',function(){S.drag=id;S.hover=id;});
-    el.addEventListener('focus',function(){S.hover=id;});
-    el.addEventListener('blur',function(){if(S.drag!==id)S.hover=null;});
-  });
-  var pairEl=document.getElementById('pair');
-  pairEl.addEventListener('change',function(e){
-    var v=parseFloat(e.target.value);
-    if(!isNaN(v)){S.mu=v;document.getElementById('mu').value=v;S.hover='mu';update();}
-  });
-  pairEl.addEventListener('pointerenter',function(){S.hover='mu';});
-  pairEl.addEventListener('pointerleave',function(){S.hover=null;});
-  window.addEventListener('pointerup',function(){S.drag=null;});
-  window.addEventListener('resize',resize);
-  resize();update();requestAnimationFrame(render);
-})();
-</script>
 </body>
 </html>
